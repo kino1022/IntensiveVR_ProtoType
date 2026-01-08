@@ -68,7 +68,9 @@ namespace IntensiveVR.Cockpit
         {
             if (cockpitSphereRenderer != null)
             {
-                cockpitMaterial = cockpitSphereRenderer.material;
+                // Use sharedMaterial to avoid creating instances
+                // Material instance will be created only when needed
+                cockpitMaterial = cockpitSphereRenderer.sharedMaterial;
             }
         }
         
@@ -104,13 +106,22 @@ namespace IntensiveVR.Cockpit
         
         private void OnDestroy()
         {
-            if (renderTexture != null && !Application.isPlaying)
+            if (renderTexture != null)
             {
-                DestroyImmediate(renderTexture);
+                if (Application.isPlaying)
+                {
+                    Destroy(renderTexture);
+                }
+                else
+                {
+                    DestroyImmediate(renderTexture);
+                }
             }
-            else if (renderTexture != null)
+            
+            // Clean up instanced material if created
+            if (cockpitMaterial != null && Application.isPlaying)
             {
-                Destroy(renderTexture);
+                Destroy(cockpitMaterial);
             }
         }
         
@@ -142,8 +153,25 @@ namespace IntensiveVR.Cockpit
             if (renderTexture != null)
             {
                 renderTexture.Release();
-                renderTexture.width = width;
-                renderTexture.height = height;
+                
+                // 新しいRenderTextureを作成
+                var oldRT = renderTexture;
+                renderTexture = new RenderTexture(width, height, 24);
+                renderTexture.name = "CockpitProjectionRT";
+                renderTexture.antiAliasing = oldRT.antiAliasing;
+                renderTexture.filterMode = oldRT.filterMode;
+                renderTexture.wrapMode = oldRT.wrapMode;
+                
+                // 古いRenderTextureを破棄
+                if (Application.isPlaying)
+                {
+                    Destroy(oldRT);
+                }
+                else
+                {
+                    DestroyImmediate(oldRT);
+                }
+                
                 ApplyRenderTexture();
             }
         }

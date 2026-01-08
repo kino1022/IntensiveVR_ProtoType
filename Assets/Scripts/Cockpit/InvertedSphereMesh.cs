@@ -15,6 +15,8 @@ namespace IntensiveVR.Cockpit
         [SerializeField] private float radius = 1f;
         
         private MeshFilter meshFilter;
+        private int lastSegments;
+        private float lastRadius;
         
         private void Awake()
         {
@@ -24,6 +26,8 @@ namespace IntensiveVR.Cockpit
         private void Start()
         {
             GenerateInvertedSphereMesh();
+            lastSegments = segments;
+            lastRadius = radius;
         }
         
         /// <summary>
@@ -104,9 +108,15 @@ namespace IntensiveVR.Cockpit
         
         private void OnValidate()
         {
+            // Only regenerate if properties actually changed
             if (Application.isPlaying && meshFilter != null)
             {
-                GenerateInvertedSphereMesh();
+                if (segments != lastSegments || !Mathf.Approximately(radius, lastRadius))
+                {
+                    GenerateInvertedSphereMesh();
+                    lastSegments = segments;
+                    lastRadius = radius;
+                }
             }
         }
     }

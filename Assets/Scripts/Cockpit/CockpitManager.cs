@@ -25,6 +25,9 @@ namespace IntensiveVR.Cockpit
         [Tooltip("VRカメラをコックピット内に配置")]
         [SerializeField] private bool placeVRCameraInCockpit = true;
         
+        [Tooltip("XR Origin（自動検索される場合は空でも可）")]
+        [SerializeField] private Transform xrOrigin;
+        
         private CockpitCameraProjection projectionSystem;
         private Transform cockpitTransform;
         
@@ -96,13 +99,24 @@ namespace IntensiveVR.Cockpit
         }
         
         /// <summary>
-        /// XR Originを検索
+        /// XR Originを検索（キャッシュを優先）
         /// </summary>
         private Transform FindXROrigin()
         {
-            // XR Origin (または XR Rig) を検索
+            // Already cached
+            if (xrOrigin != null)
+            {
+                return xrOrigin;
+            }
+            
+            // Try to find and cache
             GameObject xrOriginObject = GameObject.Find("XR Origin") ?? GameObject.Find("XR Rig");
-            return xrOriginObject?.transform;
+            if (xrOriginObject != null)
+            {
+                xrOrigin = xrOriginObject.transform;
+            }
+            
+            return xrOrigin;
         }
         
         /// <summary>
