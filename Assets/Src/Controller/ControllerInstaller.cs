@@ -1,5 +1,8 @@
+using RinaInput.Provider;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using VContainer;
 using VContainer.Unity;
 
@@ -14,7 +17,14 @@ namespace Controller {
         [LabelText("左手トラッキングモジュール")]
         private ILeftHandTrackingModule _leftModule;
         
+        [SerializeField]
+        [LabelText("Input Action Map")]
+        private InputActionAsset _inputActionMap;
+        
         public void Install(IContainerBuilder builder) {
+            
+            builder
+                .Register<IInputStreamProvider, InputStreamProvider>(Lifetime.Singleton);
 
             if (_rightModule is not null) {
                 builder

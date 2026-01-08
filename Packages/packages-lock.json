@@ -49,7 +49,7 @@
         "com.cysharp.messagepipe": "https://github.com/Cysharp/MessagePipe.git?path=src/MessagePipe.Unity/Assets/Plugins/MessagePipe",
         "com.cysharp.messagepipe.vcontainer": "https://github.com/Cysharp/MessagePipe.git?path=src/MessagePipe.Unity/Assets/Plugins/MessagePipe.VContainer"
       },
-      "hash": "f443896f62818a5522ec4b553102b12b5801402c"
+      "hash": "b1f8252d9a2f49e760931bdba1aece89dacc8acb"
     },
     "com.unity.animation.rigging": {
       "version": "1.4.0",

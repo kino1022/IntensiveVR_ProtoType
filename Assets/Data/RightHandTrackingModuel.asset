@@ -10,15 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f6101d9ce83412c8854aa8425fdd13c, type: 3}
-  m_Name: RightTrackingModule
+  m_Name: RightHandTrackingModuel
   m_EditorClassIdentifier: Assembly-CSharp::Controller.RightHandTrackingModule
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 0}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  m_actionRef: {fileID: 0}
+    SerializationNodes:
+    - Name: m_actionRef
+      Entry: 10
+      Data: 0
