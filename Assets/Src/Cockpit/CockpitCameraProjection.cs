@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace IntensiveVR.Cockpit
@@ -53,7 +54,12 @@ namespace IntensiveVR.Cockpit
             
             ApplyRenderTexture();
         }
-        
+
+        private void Update() {
+            CreateRenderTexture();
+            ApplyRenderTexture();
+        }
+
         private void InitializeCamera()
         {
             if (projectionCamera != null)
