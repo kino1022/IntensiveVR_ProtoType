@@ -1,26 +1,45 @@
 using UnityEngine;
 
-namespace IntensiveVR.Cockpit
+namespace IntensiveVR. Cockpit
 {
     /// <summary>
     /// 球体メッシュを反転させて内側から見えるようにするユーティリティ
     /// </summary>
     [RequireComponent(typeof(MeshFilter))]
+    [RequireComponent(typeof(MeshRenderer))]
     public class InvertedSphereMesh : MonoBehaviour
     {
-        [Tooltip("球体の分割数（高いほど滑らか）")]
+        [Tooltip("球体の分割数（高いほど滑らか��")]
         [SerializeField] private int segments = 48;
         
         [Tooltip("球体の半径")]
         [SerializeField] private float radius = 1f;
         
+        [Tooltip("UVを水平方向に反転")]
+        [SerializeField] private bool flipUVHorizontal = true;
+        
+        [Tooltip("UVを垂直方向に反転")]
+        [SerializeField] private bool flipUVVertical = false;
+        
+        [Header("Debug")]
+        [SerializeField] private bool debugMode = false;
+        
         private MeshFilter meshFilter;
+        private MeshRenderer meshRenderer;
         private int lastSegments;
         private float lastRadius;
+        private bool lastFlipUVHorizontal;
+        private bool lastFlipUVVertical;
         
         private void Awake()
         {
             meshFilter = GetComponent<MeshFilter>();
+            meshRenderer = GetComponent<MeshRenderer>();
+            
+            if (meshRenderer != null)
+            {
+                meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
         }
         
         private void Start()
@@ -28,6 +47,8 @@ namespace IntensiveVR.Cockpit
             GenerateInvertedSphereMesh();
             lastSegments = segments;
             lastRadius = radius;
+            lastFlipUVHorizontal = flipUVHorizontal;
+            lastFlipUVVertical = flipUVVertical;
         }
         
         /// <summary>
@@ -48,8 +69,8 @@ namespace IntensiveVR.Cockpit
             for (int lat = 0; lat <= segments; lat++)
             {
                 float theta = lat * Mathf.PI / segments;
-                float sinTheta = Mathf.Sin(theta);
-                float cosTheta = Mathf.Cos(theta);
+                float sinTheta = Mathf. Sin(theta);
+                float cosTheta = Mathf. Cos(theta);
                 
                 for (int lon = 0; lon <= segments; lon++)
                 {
@@ -62,9 +83,27 @@ namespace IntensiveVR.Cockpit
                     float z = sinPhi * sinTheta;
                     
                     vertices[index] = new Vector3(x, y, z) * radius;
+                    
                     // 法線を内側に向ける（通常の球体と逆）
                     normals[index] = new Vector3(-x, -y, -z);
-                    uvs[index] = new Vector2((float)lon / segments, (float)lat / segments);
+                    
+                    // UV座標の計算（内側から見るための調整）
+                    float u = (float)lon / segments;
+                    float v = (float)lat / segments;
+                    
+                    // 水平方向の反転（左右を正しく表示）
+                    if (flipUVHorizontal)
+                    {
+                        u = 1.0f - u;
+                    }
+                    
+                    // 垂直方向の反転（必要に応じて）
+                    if (flipUVVertical)
+                    {
+                        v = 1.0f - v;
+                    }
+                    
+                    uvs[index] = new Vector2(u, v);
                     
                     index++;
                 }
@@ -84,39 +123,101 @@ namespace IntensiveVR.Cockpit
                     
                     // 三角形の巻き順を反転（内側から見えるように）
                     triangles[triIndex++] = current;
-                    triangles[triIndex++] = current + 1;
                     triangles[triIndex++] = next;
+                    triangles[triIndex++] = current + 1;
                     
                     triangles[triIndex++] = current + 1;
-                    triangles[triIndex++] = next + 1;
                     triangles[triIndex++] = next;
+                    triangles[triIndex++] = next + 1;
                 }
             }
             
-            mesh.vertices = vertices;
-            mesh.normals = normals;
+            mesh. vertices = vertices;
+            mesh. normals = normals;
             mesh.uv = uvs;
             mesh.triangles = triangles;
             
-            mesh.RecalculateBounds();
+            mesh. RecalculateBounds();
             
             if (meshFilter != null)
             {
                 meshFilter.mesh = mesh;
+                
+                if (debugMode)
+                {
+                    Debug.Log($"[InvertedSphereMesh] Generated mesh:");
+                    Debug.Log($"  Vertices: {vertices.Length}");
+                    Debug.Log($"  Triangles: {triangles.Length / 3}");
+                    Debug.Log($"  Radius: {radius}");
+                    Debug.Log($"  Segments: {segments}");
+                    Debug.Log($"  UV Flip: H={flipUVHorizontal}, V={flipUVVertical}");
+                }
+            }
+            else
+            {
+                Debug.LogError("[InvertedSphereMesh] MeshFilter is null!");
             }
         }
         
         private void OnValidate()
         {
-            // Only regenerate if properties actually changed
             if (Application.isPlaying && meshFilter != null)
             {
-                if (segments != lastSegments || !Mathf.Approximately(radius, lastRadius))
+                bool needsRegeneration = segments != lastSegments 
+                                      || !Mathf.Approximately(radius, lastRadius)
+                                      || flipUVHorizontal != lastFlipUVHorizontal
+                                      || flipUVVertical != lastFlipUVVertical;
+                
+                if (needsRegeneration)
                 {
                     GenerateInvertedSphereMesh();
                     lastSegments = segments;
                     lastRadius = radius;
+                    lastFlipUVHorizontal = flipUVHorizontal;
+                    lastFlipUVVertical = flipUVVertical;
                 }
+            }
+        }
+        
+        [ContextMenu("Regenerate Mesh")]
+        public void RegenerateMesh()
+        {
+            GenerateInvertedSphereMesh();
+        }
+        
+        [ContextMenu("Debug Mesh Info")]
+        private void DebugMeshInfo()
+        {
+            if (meshFilter != null && meshFilter.sharedMesh != null)
+            {
+                Mesh mesh = meshFilter.sharedMesh;
+                Debug.Log($"=== Inverted Sphere Mesh Info ===");
+                Debug.Log($"Vertex Count: {mesh. vertexCount}");
+                Debug.Log($"Triangle Count: {mesh.triangles.Length / 3}");
+                Debug.Log($"Bounds: {mesh. bounds}");
+                
+                // 最初の数頂点のUVを表示
+                if (mesh.uv.Length >= 3)
+                {
+                    Debug.Log($"First 3 UV coordinates:");
+                    Debug.Log($"  UV[0]:  {mesh.uv[0]}");
+                    Debug.Log($"  UV[1]: {mesh.uv[1]}");
+                    Debug.Log($"  UV[2]: {mesh.uv[2]}");
+                }
+                
+                // 最初の三角形を表示
+                if (mesh.triangles.Length >= 3)
+                {
+                    Debug.Log($"First Triangle:");
+                    Debug.Log($"  Indices: [{mesh.triangles[0]}, {mesh.triangles[1]}, {mesh.triangles[2]}]");
+                    Debug.Log($"  V0: {mesh.vertices[mesh.triangles[0]]}");
+                    Debug.Log($"  V1: {mesh.vertices[mesh.triangles[1]]}");
+                    Debug.Log($"  V2: {mesh.vertices[mesh.triangles[2]]}");
+                }
+            }
+            else
+            {
+                Debug. LogWarning("No mesh found!");
             }
         }
     }

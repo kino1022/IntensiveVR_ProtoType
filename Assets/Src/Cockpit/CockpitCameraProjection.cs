@@ -55,11 +55,6 @@ namespace IntensiveVR.Cockpit
             ApplyRenderTexture();
         }
 
-        private void Update() {
-            CreateRenderTexture();
-            ApplyRenderTexture();
-        }
-
         private void InitializeCamera()
         {
             if (projectionCamera != null)

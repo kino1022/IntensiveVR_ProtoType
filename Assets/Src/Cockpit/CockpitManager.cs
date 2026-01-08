@@ -1,35 +1,36 @@
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 namespace IntensiveVR.Cockpit
 {
-    /// <summary>
-    /// VRロボット操縦用コックピットシステムのマネージャー
-    /// カメラ投影とコックピット環境を統合管理します
-    /// </summary>
     public class CockpitManager : MonoBehaviour
     {
         [Header("Components")]
-        [Tooltip("投影カメラオブジェクト")]
-        [SerializeField] private GameObject projectionCameraObject;
-        
-        [Tooltip("コックピット球体オブジェクト")]
+        [SerializeField] private CockpitPanoramaCamera projectionCameraObject;
         [SerializeField] private GameObject cockpitSphereObject;
-        
-        [Tooltip("VRカメラ（プレイヤーの頭）")]
         [SerializeField] private Camera vrCamera;
         
         [Header("Cockpit Position")]
-        [Tooltip("コックピットの隔離された座標")]
         [SerializeField] private Vector3 isolatedPosition = new Vector3(1000f, 1000f, 1000f);
-        
-        [Tooltip("VRカメラをコックピット内に配置")]
         [SerializeField] private bool placeVRCameraInCockpit = true;
-        
-        [Tooltip("XR Origin（自動検索される場合は空でも可）")]
         [SerializeField] private Transform xrOrigin;
+        
+        [Header("Physics Control")]
+        [Tooltip("コックピット内では重力を無効化")]
+        [SerializeField] private bool disableGravityInCockpit = true;
+        
+        [Header("Debug")]
+        [SerializeField] private bool debugMode = false;
         
         private CockpitCameraProjection projectionSystem;
         private Transform cockpitTransform;
+        private Vector3 initialXROriginPosition;
+        
+        // 物理コンポーネントのキャッシュ
+        private CharacterController characterController;
+        private Rigidbody rigidBody;
+        private bool wasUsingGravity = false;
+        private bool characterControllerWasEnabled = false;
         
         private void Awake()
         {
@@ -40,7 +41,7 @@ namespace IntensiveVR.Cockpit
         {
             SetupCockpitPosition();
             
-            if (placeVRCameraInCockpit && vrCamera != null)
+            if (placeVRCameraInCockpit)
             {
                 PositionVRCameraInCockpit();
             }
@@ -55,73 +56,201 @@ namespace IntensiveVR.Cockpit
             
             if (cockpitSphereObject != null)
             {
-                cockpitTransform = cockpitSphereObject.transform;
+                cockpitTransform = cockpitSphereObject. transform;
+            }
+            
+            // XR Originを検索
+            if (xrOrigin == null)
+            {
+                xrOrigin = FindXROrigin();
+            }
+            
+            // 物理コンポーネントを取得
+            if (xrOrigin != null)
+            {
+                initialXROriginPosition = xrOrigin.position;
+                characterController = xrOrigin.GetComponent<CharacterController>();
+                rigidBody = xrOrigin. GetComponent<Rigidbody>();
+                
+                if (characterController != null && debugMode)
+                {
+                    Debug.Log($"[CockpitManager] Found CharacterController on XR Origin");
+                }
+                
+                if (rigidBody != null && debugMode)
+                {
+                    Debug.Log($"[CockpitManager] Found Rigidbody on XR Origin (useGravity: {rigidBody.useGravity})");
+                }
             }
         }
         
-        /// <summary>
-        /// コックピットを隔離された座標に配置
-        /// </summary>
         private void SetupCockpitPosition()
         {
             if (cockpitTransform != null)
             {
                 cockpitTransform.position = isolatedPosition;
-            }
-            
-            if (projectionCameraObject != null)
-            {
-                // 投影カメラは元の位置に残す（ロボットの視点）
-                // またはロボットの頭部にアタッチすることを想定
-            }
-        }
-        
-        /// <summary>
-        /// VRカメラをコックピット内に配置
-        /// </summary>
-        private void PositionVRCameraInCockpit()
-        {
-            if (vrCamera != null && cockpitTransform != null)
-            {
-                Transform vrCameraTransform = vrCamera.transform;
                 
-                // VRカメラの親をコックピットに設定するか、
-                // VRカメラをコックピットの中心に配置
-                // （XR Originの扱いによって調整が必要）
-                
-                // 注: XR Originを使用している場合は、Origin全体を移動する必要がある
-                Transform xrOrigin = FindXROrigin();
-                if (xrOrigin != null)
+                if (debugMode)
                 {
-                    xrOrigin.position = isolatedPosition;
+                    Debug.Log($"[CockpitManager] Cockpit sphere positioned at {isolatedPosition}");
                 }
             }
         }
         
         /// <summary>
-        /// XR Originを検索（キャッシュを優先）
+        /// VRカメラ（XR Origin）をコックピット内に配置
+        /// </summary>
+        private void PositionVRCameraInCockpit()
+        {
+            Transform origin = xrOrigin ??  FindXROrigin();
+            
+            if (origin == null)
+            {
+                Debug.LogError("[CockpitManager] XR Origin not found!");
+                return;
+            }
+            
+            if (cockpitTransform == null)
+            {
+                Debug.LogError("[CockpitManager] Cockpit transform is null!");
+                return;
+            }
+            
+            // 重力を無効化
+            if (disableGravityInCockpit)
+            {
+                DisablePhysics();
+            }
+            
+            // XR Origin全体を移動
+            if (characterController != null)
+            {
+                // CharacterControllerの場合はMoveを使う
+                characterController.enabled = false;
+                origin.position = isolatedPosition;
+                characterController.enabled = true;
+            }
+            else
+            {
+                // 通常のTransform移動
+                origin.position = isolatedPosition;
+            }
+            
+            if (debugMode)
+            {
+                Debug.Log($"[CockpitManager] XR Origin moved to {isolatedPosition}");
+                
+                if (vrCamera != null)
+                {
+                    Debug.Log($"[CockpitManager] VR Camera world position: {vrCamera.transform.position}");
+                    float distance = Vector3.Distance(vrCamera. transform.position, isolatedPosition);
+                    Debug.Log($"[CockpitManager] Distance from cockpit center: {distance}");
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 物理演算を無効化
+        /// </summary>
+        private void DisablePhysics()
+        {
+            if (characterController != null)
+            {
+                characterControllerWasEnabled = characterController. enabled;
+                characterController.enabled = false;
+                
+                if (debugMode)
+                {
+                    Debug.Log("[CockpitManager] CharacterController disabled");
+                }
+            }
+            
+            if (rigidBody != null)
+            {
+                wasUsingGravity = rigidBody.useGravity;
+                rigidBody.useGravity = false;
+                rigidBody.isKinematic = true;
+                
+                if (debugMode)
+                {
+                    Debug.Log("[CockpitManager] Rigidbody gravity disabled and set to kinematic");
+                }
+            }
+        }
+        
+        /// <summary>
+        /// 物理演算を再有効化
+        /// </summary>
+        private void EnablePhysics()
+        {
+            if (characterController != null && characterControllerWasEnabled)
+            {
+                characterController.enabled = true;
+                
+                if (debugMode)
+                {
+                    Debug.Log("[CockpitManager] CharacterController re-enabled");
+                }
+            }
+            
+            if (rigidBody != null)
+            {
+                rigidBody.useGravity = wasUsingGravity;
+                rigidBody.isKinematic = false;
+                
+                if (debugMode)
+                {
+                    Debug.Log("[CockpitManager] Rigidbody gravity restored");
+                }
+            }
+        }
+        
+        /// <summary>
+        /// XR Originを検索
         /// </summary>
         private Transform FindXROrigin()
         {
-            // Already cached
             if (xrOrigin != null)
             {
                 return xrOrigin;
             }
+
+            GameObject xrOriginObject = GameObject.Find("XR Origin")
+                                        ?? GameObject.Find("XR Rig")
+                                        ?? GameObject.Find("XROrigin")
+                                        ?? FindAnyObjectByType<XROrigin>().gameObject;
             
-            // Try to find and cache
-            GameObject xrOriginObject = GameObject.Find("XR Origin") ?? GameObject.Find("XR Rig");
             if (xrOriginObject != null)
             {
                 xrOrigin = xrOriginObject.transform;
+                
+                if (debugMode)
+                {
+                    Debug.Log($"[CockpitManager] Found XR Origin:  {xrOrigin.name}");
+                }
+            }
+            else if (vrCamera != null)
+            {
+                // VRカメラの親を遡って検索
+                Transform current = vrCamera.transform. parent;
+                while (current != null)
+                {
+                    if (current.name. Contains("XR") || current.name.Contains("Origin") || current.name.Contains("Rig"))
+                    {
+                        xrOrigin = current;
+                        if (debugMode)
+                        {
+                            Debug.Log($"[CockpitManager] Found XR Origin by traversing:  {xrOrigin.name}");
+                        }
+                        break;
+                    }
+                    current = current.parent;
+                }
             }
             
             return xrOrigin;
         }
         
-        /// <summary>
-        /// コックピットの位置を変更
-        /// </summary>
         public void SetCockpitPosition(Vector3 position)
         {
             isolatedPosition = position;
@@ -133,9 +262,6 @@ namespace IntensiveVR.Cockpit
             }
         }
         
-        /// <summary>
-        /// 投影カメラをロボットのトランスフォームに追従させる
-        /// </summary>
         public void AttachProjectionCameraToRobot(Transform robotHeadTransform)
         {
             if (projectionCameraObject != null && robotHeadTransform != null)
@@ -143,6 +269,11 @@ namespace IntensiveVR.Cockpit
                 projectionCameraObject.transform.SetParent(robotHeadTransform);
                 projectionCameraObject.transform.localPosition = Vector3.zero;
                 projectionCameraObject.transform.localRotation = Quaternion.identity;
+                
+                if (debugMode)
+                {
+                    Debug.Log($"[CockpitManager] Projection camera attached to {robotHeadTransform.name}");
+                }
             }
         }
         
@@ -158,7 +289,81 @@ namespace IntensiveVR.Cockpit
             
             if (projectionCameraObject != null)
             {
-                projectionCameraObject.SetActive(active);
+                projectionCameraObject.gameObject.SetActive(active);
+            }
+            
+            // 物理の制御
+            if (disableGravityInCockpit)
+            {
+                if (active)
+                {
+                    DisablePhysics();
+                }
+                else
+                {
+                    EnablePhysics();
+                }
+            }
+            
+            if (debugMode)
+            {
+                Debug.Log($"[CockpitManager] Cockpit system set to {(active ? "active" : "inactive")}");
+            }
+        }
+        
+        /// <summary>
+        /// XR Originを初期位置に戻す
+        /// </summary>
+        public void ResetVRCameraPosition()
+        {
+            if (xrOrigin != null)
+            {
+                if (disableGravityInCockpit)
+                {
+                    EnablePhysics();
+                }
+                
+                xrOrigin. position = initialXROriginPosition;
+                
+                if (debugMode)
+                {
+                    Debug.Log($"[CockpitManager] XR Origin reset to {initialXROriginPosition}");
+                }
+            }
+        }
+        
+        [ContextMenu("Debug Cockpit Status")]
+        private void DebugCockpitStatus()
+        {
+            Debug.Log("=== Cockpit Manager Status ===");
+            Debug. Log($"XR Origin: {(xrOrigin != null ? xrOrigin.name : "NULL")}");
+            Debug.Log($"XR Origin Position: {xrOrigin?.position}");
+            Debug.Log($"Cockpit Position: {isolatedPosition}");
+            
+            if (characterController != null)
+            {
+                Debug.Log($"CharacterController:  Enabled={characterController.enabled}");
+            }
+            
+            if (rigidBody != null)
+            {
+                Debug.Log($"Rigidbody:  useGravity={rigidBody.useGravity}, isKinematic={rigidBody.isKinematic}");
+            }
+            
+            if (vrCamera != null)
+            {
+                Debug.Log($"VR Camera Position: {vrCamera.transform.position}");
+                float distance = Vector3.Distance(vrCamera.transform.position, isolatedPosition);
+                Debug.Log($"Distance from cockpit center: {distance}");
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            // クリーンアップ：物理を元に戻す
+            if (disableGravityInCockpit)
+            {
+                EnablePhysics();
             }
         }
     }

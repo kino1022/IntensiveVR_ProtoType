@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.05
@@ -2001,6 +2001,8 @@ MonoBehaviour:
   isolatedPosition: {x: 1000, y: 1000, z: 1000}
   placeVRCameraInCockpit: 1
   xrOrigin: {fileID: 1810135246}
+  disableGravityInCockpit: 1
+  debugMode: 0
 --- !u!4 &324584129
 Transform:
   m_ObjectHideFlags: 0
@@ -2029,8 +2031,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntensiveVR.Cockpit.Examples.CockpitExample
   cockpitManager: {fileID: 324584128}
-  robotHead: {fileID: 7663718744151752261}
-  cockpitProjection: {fileID: 7663718744151752258}
+  robotHead: {fileID: 0}
+  cockpitProjection: {fileID: 0}
   enableCockpitOnStart: 1
   toggleKey: 99
 --- !u!1 &329674977
@@ -4433,6 +4435,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558498187}
   m_CullTransparentMesh: 1
+--- !u!1001 &602582639
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 982.8487
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1005.4665
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 987.53845
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187027, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_Name
+      value: XR Device Simulator
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
 --- !u!1 &602859959
 GameObject:
   m_ObjectHideFlags: 0
@@ -4771,6 +4830,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628216134}
   m_CullTransparentMesh: 1
+--- !u!1 &629575865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8806329115733545877, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+  m_PrefabInstance: {fileID: 1373153106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &638498286
 GameObject:
   m_ObjectHideFlags: 0
@@ -8341,6 +8405,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065981690}
   m_CullTransparentMesh: 1
+--- !u!1 &1066642190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 556407521424168566, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+  m_PrefabInstance: {fileID: 7663718744151752257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1071784861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10455,6 +10524,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4295892835532738850, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4750419573833148750, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -10567,6 +10640,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -23
       objectReference: {fileID: 0}
+    - target: {fileID: 7260069061857253776, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8806329115733545877, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_Name
       value: XR Origin Hands (XR Rig)
@@ -10611,10 +10688,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4295892835532738850, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8806329115733545877, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1810135251}
   m_SourcePrefab: {fileID: 100100000, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
 --- !u!1 &1390846723
 GameObject:
@@ -10954,7 +11035,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntensiveVR.Cockpit.InvertedSphereMesh
   segments: 48
-  radius: 1
+  radius: 100
+  flipUVHorizontal: 0
+  flipUVVertical: 0
+  debugMode: 0
 --- !u!33 &1434579046
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -13117,6 +13201,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8806329115733545878, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
   m_PrefabInstance: {fileID: 1373153106}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &1810135251
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629575865}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1815318735
 GameObject:
   m_ObjectHideFlags: 0
@@ -18130,7 +18241,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.65013
+      value: -0.26
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18138,11 +18249,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.65817
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.71325046
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -18150,7 +18261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.70090926
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -18162,7 +18273,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 89
       objectReference: {fileID: 0}
     - target: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -18174,26 +18285,34 @@ PrefabInstance:
       objectReference: {fileID: 1434579044}
     m_RemovedComponents:
     - {fileID: 3787398110917627843, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+    - {fileID: 814822899259909342, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+    - {fileID: 5719221506801285917, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 556407521424168566, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7663718744151752262}
   m_SourcePrefab: {fileID: 100100000, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
---- !u!114 &7663718744151752258 stripped
+--- !u!114 &7663718744151752262
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5719221506801285917, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
-  m_PrefabInstance: {fileID: 7663718744151752257}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1066642190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d, type: 3}
+  m_Script: {fileID: 11500000, guid: cfda77756efe446f2af8dbc23f46599b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IntensiveVR.Cockpit.CockpitCameraProjection
---- !u!4 &7663718744151752261 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3078861128354427110, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
-  m_PrefabInstance: {fileID: 7663718744151752257}
-  m_PrefabAsset: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::IntensiveVR.Cockpit.CockpitPanoramaCamera
+  cockpitSphereRenderer: {fileID: 1434579044}
+  cubemapResolution: 2048
+  equirectangularResolution: {x: 4096, y: 2048}
+  nearClipPlane: 0.1
+  farClipPlane: 1000
+  updateEveryNFrames: 1
+  debugMode: 0
 --- !u!1001 &8082471361860586650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18337,3 +18456,4 @@ SceneRoots:
   - {fileID: 2870521758431885822}
   - {fileID: 7663718744151752257}
   - {fileID: 324584129}
+  - {fileID: 602582639}
