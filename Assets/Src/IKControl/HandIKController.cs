@@ -65,7 +65,7 @@ namespace Player {
         [Inject]
         public void Construct(IObjectResolver resolver) {
             _resolver = resolver;
-            if (_enableLogs) Debug.Log($"[HandIKController] Construct called. Resolver injected: {(resolver != null)}");
+            if (_enableLogs) Debug.Log($"[HandIKController] Construct called.  Resolver injected: {(resolver != null)}");
         }
 
         private void Start() {
@@ -74,7 +74,7 @@ namespace Player {
                 _rightProvider = _resolver.Resolve<IRightTrackingPositionProvider>();
                 if (_enableLogs) Debug.Log($"[HandIKController] Start: Providers resolved. Left: {(_leftProvider != null)}, Right: {(_rightProvider != null)}");
             } else {
-                if (_enableLogs) Debug.LogWarning("[HandIKController] Start: Resolver is null. Providers not resolved.");
+                if (_enableLogs) Debug.LogWarning("[HandIKController] Start:  Resolver is null. Providers not resolved.");
             }
         }
 
@@ -85,7 +85,7 @@ namespace Player {
             
         private void LateUpdate() {
             if (_leftProvider != null && _leftHandIKTarget != null) {
-                if (_enableLogs) Debug.Log($"[HandIKController] LateUpdate: Updating left hand. ControllerPos: {_leftProvider.Provide()}");
+                if (_enableLogs) Debug.Log($"[HandIKController] LateUpdate: Updating left hand.  ControllerPos: {_leftProvider.Provide()}");
                 UpdateHandIK(_leftProvider.Provide(), _leftHandIKTarget);
             } else if (_enableLogs && (_leftProvider == null || _leftHandIKTarget == null)) {
                 if (_leftProvider == null) Debug.LogWarning("[HandIKController] LateUpdate: Left provider is null.");
@@ -94,7 +94,7 @@ namespace Player {
             
             if (_rightProvider != null && _rightHandIKTarget != null) {
                 if (_enableLogs) Debug.Log($"[HandIKController] LateUpdate: Updating right hand. ControllerPos: {_rightProvider.Provide()}");
-                UpdateHandIK(_rightProvider.Provide(), _rightHandIKTarget);
+                UpdateHandIK(_rightProvider. Provide(), _rightHandIKTarget);
             } else if (_enableLogs && (_rightProvider == null || _rightHandIKTarget == null)) {
                 if (_rightProvider == null) Debug.LogWarning("[HandIKController] LateUpdate: Right provider is null.");
                 if (_rightHandIKTarget == null) Debug.LogWarning("[HandIKController] LateUpdate: Right IK target is null.");
@@ -122,17 +122,24 @@ namespace Player {
                 return;
             }
             
-            // キャラクターの基準位置からの相対位置として計算
-            Vector3 relativePosition = controllerPosition * _positionControlRatio;
-            Vector3 worldPosition = _characterBase.TransformPoint(relativePosition + _handPositionOffset);
+            // コントローラーのワールド座標をキャラクターのローカル座標系に変換
+            Vector3 localControllerPosition = _characterBase.InverseTransformPoint(controllerPosition);
             
+            // ローカル座標にスケーリングとオフセットを適用
+            Vector3 scaledLocalPosition = localControllerPosition * _positionControlRatio;
+            Vector3 offsetLocalPosition = scaledLocalPosition + _handPositionOffset;
+            
+            // 最終的なワールド座標を計算
+            Vector3 worldPosition = _characterBase.TransformPoint(offsetLocalPosition);
+            
+            // スムージングを適用
             ikTarget.transform.position = Vector3.Lerp(
                 ikTarget.transform.position,
                 worldPosition,
                 1f - _positionSmoothing
             );
 
-            if (_enableLogs) Debug.Log($"[HandIKController] UpdateHandIK (with base): worldPosition={worldPosition}, afterLerp={ikTarget.transform.position}");
+            if (_enableLogs) Debug.Log($"[HandIKController] UpdateHandIK (with base): localPos={localControllerPosition}, scaledLocal={scaledLocalPosition}, worldPosition={worldPosition}, afterLerp={ikTarget.transform.position}");
         }
 
         private void UpdateOffset() {
