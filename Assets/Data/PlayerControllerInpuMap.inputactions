@@ -1,0 +1,55 @@
+{
+    "version": 1,
+    "name": "PlayerControllerInpuMap",
+    "maps": [
+        {
+            "name": "GameScene",
+            "id": "7b35201f-0f73-4d80-bbde-99b40e78ec0a",
+            "actions": [
+                {
+                    "name": "LeftHand",
+                    "type": "Value",
+                    "id": "a1452af3-6117-4f00-b385-f056c7411d34",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RightHand",
+                    "type": "Value",
+                    "id": "db1bdaf5-6b1a-4a0c-97c5-e26c4e44c4d7",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3ce423ee-4418-49b4-b2cb-2c223f26611f",
+                    "path": "<XRController>{LeftHand}/{DevicePosition}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69fdf431-e9c9-4f3b-a2d1-244ba31f7629",
+                    "path": "<XRController>{RightHand}/{DevicePosition}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

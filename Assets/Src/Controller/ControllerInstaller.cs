@@ -1,3 +1,5 @@
+using System;
+using R3;
 using RinaInput.Provider;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -40,7 +42,9 @@ namespace Controller {
 
             builder
                 .RegisterEntryPoint<LeftTrackingPositionProvider>()
-                .As<ILeftTrackingPositionProvider>();
+                .As<ILeftTrackingPositionProvider>()
+                .As<IStartable>()
+                .As<IDisposable>();
             
             builder
                 .RegisterEntryPoint<RightTrackingPositionProvider>()

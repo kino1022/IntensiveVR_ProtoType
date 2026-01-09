@@ -73,21 +73,23 @@ namespace Controller {
         }
 
         protected void OnPositionChanged(InputSignal<Vector3> signal) {
-            if (signal.Phase == InputActionPhase.Started || signal.Phase == InputActionPhase.Performed) {
-                _handPosition = signal.Value;
-            }
+            _handPosition = signal.Value;
         }
     }
-    
-    public interface IRightTrackingPositionProvider : IHandTrackingPositionProvider { }
+
+    public interface IRightTrackingPositionProvider : IHandTrackingPositionProvider {
+        
+    }
 
     [Serializable]
     public class RightTrackingPositionProvider : ATrackingPositionProvider<IRightHandTrackingModule>, IRightTrackingPositionProvider {
         
         public RightTrackingPositionProvider(IObjectResolver resolver) : base(resolver) {}
     }
-    
-    public interface ILeftTrackingPositionProvider : IHandTrackingPositionProvider { }
+
+    public interface ILeftTrackingPositionProvider : IHandTrackingPositionProvider {
+        
+    }
     
     [Serializable]
     public class LeftTrackingPositionProvider : ATrackingPositionProvider<ILeftHandTrackingModule>, ILeftTrackingPositionProvider {
