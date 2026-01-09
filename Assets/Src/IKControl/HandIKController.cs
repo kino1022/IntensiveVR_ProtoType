@@ -2,7 +2,7 @@ using Controller;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
+using UnityEngine. Animations. Rigging;
 using VContainer;
 
 namespace Player {
@@ -10,7 +10,7 @@ namespace Player {
     /// TrackingModuleから取得したコントローラー位置と
     /// キャラクターの基準位置の差分を使ってIKターゲットを制御
     /// </summary>
-    public class HandIKController : SerializedMonoBehaviour {
+    public class HandIKController :  SerializedMonoBehaviour {
         
         [Header("IK Targets")]
         [SerializeField]
@@ -19,31 +19,23 @@ namespace Player {
         [SerializeField]
         private RigTransform _rightHandIKTarget;
         
-        [Header("Base References")]
+        [Header("Controller References")]
         [SerializeField]
-        [Tooltip("キャラクターの基準位置（例:  HMDやキャラクターのルート）")]
-        private Transform _characterBase;
-
-        [Header("XR References")]
+        [Tooltip("左コントローラーのTransform（TrackedPoseDriverがアタッチされているGameObject）")]
+        private Transform _leftControllerTransform;
+        
         [SerializeField]
-        [Tooltip("XRマネージャの位置")]
-        private Transform _xrBase;
+        [Tooltip("右コントローラーのTransform（TrackedPoseDriverがアタッチされているGameObject）")]
+        private Transform _rightControllerTransform;
         
         [Header("Offset Settings")]
         [SerializeField]
+        [Tooltip("手の位置の微調整用オフセット（ワールド座標）")]
         private Vector3 _handPositionOffset;
-        
-        [SerializeField]
-        private Vector3 _handRotationOffset;
         
         [SerializeField]
         [Range(0f, 1f)]
         private float _positionSmoothing = 0.1f;
-
-        [SerializeField]
-        [Range(0.0f, 10.0f)]
-        [Tooltip("コントローラー位置とIKターゲット位置の制御比率")]
-        private float _positionControlRatio = 5.0f;
 
         // ===== Debug =====
         [Header("Debug")]
@@ -54,11 +46,11 @@ namespace Player {
 
         [OdinSerialize]
         [ReadOnly]
-        private ILeftTrackingPositionProvider _leftProvider;
+        private ILeftHandTrackingModule _leftModule;
         
         [OdinSerialize]
         [ReadOnly]
-        private IRightTrackingPositionProvider _rightProvider;
+        private IRightHandTrackingModule _rightModule;
 
         private IObjectResolver _resolver;
 
@@ -70,87 +62,54 @@ namespace Player {
 
         private void Start() {
             if (_resolver is not null) {
-                _leftProvider = _resolver.Resolve<ILeftTrackingPositionProvider>();
-                _rightProvider = _resolver.Resolve<IRightTrackingPositionProvider>();
-                if (_enableLogs) Debug.Log($"[HandIKController] Start: Providers resolved. Left: {(_leftProvider != null)}, Right: {(_rightProvider != null)}");
+                _leftModule = _resolver.Resolve<ILeftHandTrackingModule>();
+                _rightModule = _resolver.Resolve<IRightHandTrackingModule>();
+                
+                // TrackedPoseDriverのTransformを取得
+                if (_leftControllerTransform == null && _leftModule != null) {
+                    _leftControllerTransform = _leftModule.GetControllerTransform();
+                }
+                if (_rightControllerTransform == null && _rightModule != null) {
+                    _rightControllerTransform = _rightModule.GetControllerTransform();
+                }
+                
+                if (_enableLogs) Debug.Log($"[HandIKController] Start:  Controllers resolved.  Left: {(_leftControllerTransform != null)}, Right: {(_rightControllerTransform != null)}");
             } else {
-                if (_enableLogs) Debug.LogWarning("[HandIKController] Start:  Resolver is null. Providers not resolved.");
+                if (_enableLogs) Debug.LogWarning("[HandIKController] Start:  Resolver is null.");
             }
-        }
-
-        private void Update() {
-            //オフセットの更新処理
-            UpdateOffset();
         }
             
         private void LateUpdate() {
-            if (_leftProvider != null && _leftHandIKTarget != null) {
-                if (_enableLogs) Debug.Log($"[HandIKController] LateUpdate: Updating left hand.  ControllerPos: {_leftProvider.Provide()}");
-                UpdateHandIK(_leftProvider.Provide(), _leftHandIKTarget);
-            } else if (_enableLogs && (_leftProvider == null || _leftHandIKTarget == null)) {
-                if (_leftProvider == null) Debug.LogWarning("[HandIKController] LateUpdate: Left provider is null.");
-                if (_leftHandIKTarget == null) Debug.LogWarning("[HandIKController] LateUpdate: Left IK target is null.");
+            if (_leftControllerTransform != null && _leftHandIKTarget != null) {
+                if (_enableLogs) Debug.Log($"[HandIKController] LateUpdate:  Updating left hand.  ControllerWorldPos: {_leftControllerTransform.position}");
+                UpdateHandIK(_leftControllerTransform. position, _leftHandIKTarget);
             }
             
-            if (_rightProvider != null && _rightHandIKTarget != null) {
-                if (_enableLogs) Debug.Log($"[HandIKController] LateUpdate: Updating right hand. ControllerPos: {_rightProvider.Provide()}");
-                UpdateHandIK(_rightProvider. Provide(), _rightHandIKTarget);
-            } else if (_enableLogs && (_rightProvider == null || _rightHandIKTarget == null)) {
-                if (_rightProvider == null) Debug.LogWarning("[HandIKController] LateUpdate: Right provider is null.");
-                if (_rightHandIKTarget == null) Debug.LogWarning("[HandIKController] LateUpdate: Right IK target is null.");
+            if (_rightControllerTransform != null && _rightHandIKTarget != null) {
+                if (_enableLogs) Debug.Log($"[HandIKController] LateUpdate: Updating right hand. ControllerWorldPos: {_rightControllerTransform.position}");
+                UpdateHandIK(_rightControllerTransform.position, _rightHandIKTarget);
             }
         }
         
-        private void UpdateHandIK(Vector3 controllerPosition, RigTransform ikTarget) {
+        private void UpdateHandIK(Vector3 controllerWorldPosition, RigTransform ikTarget) {
             if (ikTarget == null) {
                 if (_enableLogs) Debug.LogWarning("[HandIKController] UpdateHandIK: ikTarget is null. Aborting update.");
                 return;
             }
 
-            if (_enableLogs) Debug.Log($"[HandIKController] UpdateHandIK start. ControllerPos: {controllerPosition}, IKTarget: {ikTarget.name}");
+            if (_enableLogs) Debug.Log($"[HandIKController] UpdateHandIK: ControllerWorldPos: {controllerWorldPosition}, IKTarget: {ikTarget.name}");
 
-            if (_characterBase == null) {
-                // 基準位置がない場合は、コントローラーの位置をそのまま使用
-                Vector3 targetPos = controllerPosition + _handPositionOffset;
-                ikTarget.transform.position = Vector3.Lerp(
-                    ikTarget.transform.position,
-                    targetPos,
-                    1f - _positionSmoothing
-                );
-
-                if (_enableLogs) Debug.Log($"[HandIKController] UpdateHandIK (no base): targetPos={targetPos}, afterLerp={ikTarget.transform.position}");
-                return;
-            }
-            
-            // コントローラーのワールド座標をキャラクターのローカル座標系に変換
-            Vector3 localControllerPosition = _characterBase.InverseTransformPoint(controllerPosition);
-            
-            // ローカル座標にスケーリングとオフセットを適用
-            Vector3 scaledLocalPosition = localControllerPosition * _positionControlRatio;
-            Vector3 offsetLocalPosition = scaledLocalPosition + _handPositionOffset;
-            
-            // 最終的なワールド座標を計算
-            Vector3 worldPosition = _characterBase.TransformPoint(offsetLocalPosition);
+            // オフセットを適用
+            Vector3 targetPosition = controllerWorldPosition + _handPositionOffset;
             
             // スムージングを適用
             ikTarget.transform.position = Vector3.Lerp(
                 ikTarget.transform.position,
-                worldPosition,
+                targetPosition,
                 1f - _positionSmoothing
             );
 
-            if (_enableLogs) Debug.Log($"[HandIKController] UpdateHandIK (with base): localPos={localControllerPosition}, scaledLocal={scaledLocalPosition}, worldPosition={worldPosition}, afterLerp={ikTarget.transform.position}");
-        }
-
-        private void UpdateOffset() {
-            if (_xrBase == null || _characterBase == null) {
-                if (_enableLogs) Debug.LogWarning("[HandIKController] UpdateOffset: XR base or Character base is null. Cannot update offsets.");
-                return;
-            }
-            Vector3 xrPosition = _xrBase.position;
-            Vector3 characterPosition = _characterBase.position;
-            Vector3 offset = xrPosition - characterPosition;
-            _handPositionOffset = offset;
+            if (_enableLogs) Debug.Log($"[HandIKController] UpdateHandIK: targetPos={targetPosition}, afterLerp={ikTarget.transform.position}");
         }
     }
 }

@@ -8762,6 +8762,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1117374924}
   m_CullTransparentMesh: 1
+--- !u!4 &1135257378 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7917674758919744168, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+  m_PrefabInstance: {fileID: 1373153106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1138640740
 GameObject:
   m_ObjectHideFlags: 0
@@ -10246,8 +10251,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1810135246}
     - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: _xrOrigin
+      value: 
+      objectReference: {fileID: 1810135246}
+    - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: _enableLogs
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: _leftHandIKTarget
@@ -10258,9 +10267,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1038999809}
     - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: _leftControllerTransform
+      value: 
+      objectReference: {fileID: 1135257378}
+    - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: _rightControllerTransform
+      value: 
+      objectReference: {fileID: 1828111680}
     - target: {fileID: 2589527298558472322, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: cockpitSphereRenderer
       value: 
@@ -13625,6 +13642,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b4a657c7df58fb4fa21624fe730efa2, type: 3}
+--- !u!4 &1828111680 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7917674758240283209, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+  m_PrefabInstance: {fileID: 1373153106}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1859349198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7785151267686525226, guid: 048249d9a15aa3c459399751e860bde7, type: 3}
