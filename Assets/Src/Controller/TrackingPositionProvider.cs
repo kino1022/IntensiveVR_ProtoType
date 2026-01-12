@@ -10,11 +10,18 @@ using VContainer.Unity;
 
 namespace Controller {
     
+    /// <summary>
+    /// ハンドコントローラのローカル座標を他のクラスに対して提供するクラスに対して約束するインターフェース
+    /// </summary>
     public interface IHandTrackingPositionProvider : IStartable, IDisposable {
 
         Vector3 Provide();
     }
     
+    /// <summary>
+    /// ハンドコントローラーのローカル座標を他のクラスに対して提供するクラス
+    /// </summary>
+    /// <typeparam name="Hand"></typeparam>
     [Serializable]
     public abstract class ATrackingPositionProvider<Hand> : IHandTrackingPositionProvider where Hand : IHandTrackingModule {
         
@@ -56,6 +63,7 @@ namespace Controller {
             return _handPosition;
         }
 
+        
         private void RegisterTrackingModule() {
             _disposables?.Dispose();
             _disposables?.Clear();
@@ -77,20 +85,32 @@ namespace Controller {
         }
     }
 
+    /// <summary>
+    /// 右手のローカル座標を他のクラスに対して提供するクラスに対して約束するインターフェース
+    /// </summary>
     public interface IRightTrackingPositionProvider : IHandTrackingPositionProvider {
         
     }
-
+    
+    /// <summary>
+    /// 右手のローカル座標を他のクラスに対して提供するクラス
+    /// </summary>
     [Serializable]
     public class RightTrackingPositionProvider : ATrackingPositionProvider<IRightHandTrackingModule>, IRightTrackingPositionProvider {
         
         public RightTrackingPositionProvider(IObjectResolver resolver) : base(resolver) {}
     }
 
+    /// <summary>
+    /// 左手のローカル座標を他のクラスに対して提供するクラスに対して約束するインターフェース
+    /// </summary>
     public interface ILeftTrackingPositionProvider : IHandTrackingPositionProvider {
         
     }
     
+    /// <summary>
+    /// 左手のローカル座標を他のクラスに対して提供するクラス
+    /// </summary>
     [Serializable]
     public class LeftTrackingPositionProvider : ATrackingPositionProvider<ILeftHandTrackingModule>, ILeftTrackingPositionProvider {
         

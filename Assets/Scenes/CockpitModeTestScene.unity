@@ -10273,7 +10273,7 @@ PrefabInstance:
     - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
     - target: {fileID: 1372524665075027124, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: _rightControllerTransform
       value: 
@@ -10333,7 +10333,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4290406727755525135, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1343260781}
   m_SourcePrefab: {fileID: 100100000, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
 --- !u!114 &1343260777 stripped
 MonoBehaviour:
@@ -10346,6 +10349,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda77756efe446f2af8dbc23f46599b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntensiveVR.Cockpit.CockpitPanoramaCamera
+--- !u!4 &1343260778 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8967252713281521550, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+  m_PrefabInstance: {fileID: 1343260776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1343260779 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4593903384673281015, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+  m_PrefabInstance: {fileID: 1343260776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1343260780 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5245448256833402059, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+  m_PrefabInstance: {fileID: 1343260776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1343260781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159533695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaee846af77a45618ac4b73c18c125e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.LocalBasedHandIKController
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _rightHandIKTarget: {fileID: 1343260779}
+  _leftHandIKTarget: {fileID: 1343260778}
+  _baseTransform: {fileID: 1343260780}
+  _ikSmoothSpeed: 1
+  _cachedRightLocalPosition: {x: 0, y: 0, z: 0}
+  _cachedLeftLocalPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1351058435
 GameObject:
   m_ObjectHideFlags: 0
