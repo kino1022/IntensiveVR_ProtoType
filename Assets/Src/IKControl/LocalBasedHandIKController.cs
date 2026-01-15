@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.XR;
 
 namespace Player {
+    /// <summary>
+    /// XRと操作キャラクターのローカル座標をベースにしてIKターゲットの操作を行うクラス
+    /// </summary>
     public class LocalBasedHandIKController : SerializedMonoBehaviour {
         
         [Title("IKターゲット設定")]
@@ -55,8 +58,14 @@ namespace Player {
         private InputDevice _cachedLeftDevice;
 
         private void Start() {
-            CachedInputDevices(XRNode.RightHand, ref _cachedRightDevice);
-            CachedInputDevices(XRNode.LeftHand, ref _cachedLeftDevice);
+            CachedInputDevices(
+                XRNode.RightHand,
+                ref _cachedRightDevice
+                );
+            CachedInputDevices(
+                XRNode.LeftHand,
+                ref _cachedLeftDevice
+                );
         }
 
         private void Update() {
@@ -131,6 +140,12 @@ namespace Player {
         /// <param name="localRot"></param>
         private void UpdateIKTargets(Transform target, Vector3 localPos, Quaternion localRot) {
             if (target is not null) {
+
+                var desiredPos = _baseTransform.TransformPoint(localPos + _positionOffset); 
+                var desiredRot = _baseTransform.rotation * localRot * Quaternion.Euler(_rotationOffsetEuler);
+                
+                float t = Mathf.Clamp01(_ikSmoothSpeed * Time.deltaTime);
+                
                 target.position = Vector3.Lerp(
                     target.position,
                     _baseTransform.position + localPos,

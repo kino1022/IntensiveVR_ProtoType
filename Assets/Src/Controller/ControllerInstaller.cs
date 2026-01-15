@@ -42,9 +42,7 @@ namespace Controller {
 
             builder
                 .RegisterEntryPoint<LeftTrackingPositionProvider>()
-                .As<ILeftTrackingPositionProvider>()
-                .As<IStartable>()
-                .As<IDisposable>();
+                .As<ILeftTrackingPositionProvider>();
             
             builder
                 .RegisterEntryPoint<RightTrackingPositionProvider>()
