@@ -12,10 +12,12 @@ namespace Controller {
         
         [OdinSerialize]
         [Inject]
+        [ReadOnly]
         private IRightHandTrackingModule _rightHandTrackingModule;
         
         [OdinSerialize]
         [Inject]
+        [ReadOnly]
         private ILeftHandTrackingModule _leftHandTrackingModule;
 
         public void Install(IContainerBuilder builder) {
@@ -27,11 +29,11 @@ namespace Controller {
             }
             
             builder
-                .RegisterEntryPoint<RightHandActionBasedTrackingModule>(Lifetime.Singleton)
+                .RegisterEntryPoint<RightHandTrackingModule>(Lifetime.Singleton)
                 .As<IRightHandTrackingModule>();
 
             builder
-                .RegisterEntryPoint<LeftHandActionBasedTrackingModule>(Lifetime.Singleton)
+                .RegisterEntryPoint<LeftHandTrackingModule>(Lifetime.Singleton)
                 .As<ILeftHandTrackingModule>();
         }
     }
