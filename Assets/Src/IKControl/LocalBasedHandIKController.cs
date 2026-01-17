@@ -49,13 +49,17 @@ namespace Player {
         [ReadOnly]
         private Vector3 _cachedLeftLocalPosition;
         
-        private Quaternion _cachedRightLocalRotation;
+        private Quaternion _cachedRightLocalRotation = Quaternion.identity;
         
-        private Quaternion _cachedLeftLocalRotation;
+        private Quaternion _cachedLeftLocalRotation = Quaternion.identity;
         
         private InputDevice _cachedRightDevice;
         
         private InputDevice _cachedLeftDevice;
+
+        [SerializeField]
+        [LabelText("デバッグログを有効化")]
+        private bool _enableDebugLogs = true;
 
         private void Start() {
             CachedInputDevices(
@@ -89,10 +93,22 @@ namespace Player {
         /// 入力デバイスの入力情報を一括キャッシュする処理
         /// </summary>
         private void UpdateCachedInputData() {
-            CacheInputPosition(_cachedRightDevice, ref _cachedRightLocalPosition);
-            CacheInputRotation(_cachedRightDevice, ref _cachedRightLocalRotation);
-            CacheInputPosition(_cachedLeftDevice, ref _cachedLeftLocalPosition);
-            CacheInputRotation(_cachedLeftDevice, ref _cachedLeftLocalRotation);
+            CacheInputPosition(
+                _cachedRightDevice, 
+                ref _cachedRightLocalPosition
+                );
+            CacheInputRotation(
+                _cachedRightDevice, 
+                ref _cachedRightLocalRotation
+                );
+            CacheInputPosition(
+                _cachedLeftDevice,
+                ref _cachedLeftLocalPosition
+                );
+            CacheInputRotation(
+                _cachedLeftDevice,
+                ref _cachedLeftLocalRotation
+                );
         }
 
         /// <summary>
@@ -104,6 +120,9 @@ namespace Player {
             if (device.isValid) {
                 if (device.TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 devicePos)) {
                     pos = devicePos;
+                    if (_enableDebugLogs) {
+                        Debug.Log($"{GetType().Name}/CacheInputPosition: Cached Position for Device {device.name}: {pos}");
+                    }
                 }
             }
         }
@@ -118,6 +137,9 @@ namespace Player {
             if (device.isValid) {
                 if (device.TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion deviceRot)) {
                     rot = deviceRot;
+                    if (_enableDebugLogs) {
+                        Debug.Log($"{GetType().Name}/CacheInputRotation: Cached Rotation for Device {device.name}: {rot.eulerAngles}");
+                    }
                 }
             }
         }
@@ -128,8 +150,7 @@ namespace Player {
         /// <param name="node"></param>
         /// <param name="cachedDevice"></param>
         private void CachedInputDevices(XRNode node, ref InputDevice cachedDevice) {
-            var devices = InputDevices.GetDeviceAtXRNode(node);
-            cachedDevice = devices;
+            cachedDevice = InputDevices.GetDeviceAtXRNode(node);
         }
 
         /// <summary>
@@ -139,6 +160,12 @@ namespace Player {
         /// <param name="localPos"></param>
         /// <param name="localRot"></param>
         private void UpdateIKTargets(Transform target, Vector3 localPos, Quaternion localRot) {
+
+            if (_baseTransform is null) {
+                Debug.LogError($"{GetType().Name}/UpdateIKTargets: Base Transform is null.");
+                return;
+            }
+            
             if (target is not null) {
 
                 var desiredPos = _baseTransform.TransformPoint(localPos + _positionOffset); 
@@ -148,14 +175,14 @@ namespace Player {
                 
                 target.position = Vector3.Lerp(
                     target.position,
-                    _baseTransform.position + localPos,
-                    _ikSmoothSpeed
+                    desiredPos,
+                    t
                 );
                 
                 target.rotation = Quaternion.Slerp(
                     target.rotation,
-                    _baseTransform.rotation * localRot,
-                    _ikSmoothSpeed
+                    desiredRot,
+                    t
                 );
             }
         }

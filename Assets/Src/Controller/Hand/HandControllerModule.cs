@@ -9,7 +9,7 @@ using VContainer.Unity;
 
 namespace Controller.Hand {
 
-    public interface IHandControllerModule : IInputModule<HandControllerData> {
+    public interface IHandControllerModule {
         
         Vector3 CurrentLocalPosition { get; }
         
@@ -25,7 +25,7 @@ namespace Controller.Hand {
         
     }
     
-    public abstract class AHandControllerModule : ITickable, IStartable, IDisposable {
+    public abstract class AHandControllerModule : ITickable, IStartable, IDisposable, IHandControllerModule {
 
         private ReactiveProperty<bool> _isEnable = new(true);
 
@@ -49,7 +49,10 @@ namespace Controller.Hand {
             _rotationStream.Where(_ => _isEnable.CurrentValue) :
             Observable.Empty<Quaternion>();
         
-
+        public Vector3 CurrentLocalPosition => _currentPosition;
+        
+        public Quaternion CurrentLocalRotation => _currentRotation;
+        
         public ReadOnlyReactiveProperty<bool> IsEnable => _isEnable;
 
         protected AHandControllerModule(XRNode node) {
@@ -85,6 +88,16 @@ namespace Controller.Hand {
                 .DistinctUntilChanged()
                 .Select(_ => valueFunc());
             return observer;
+        }
+    }
+    
+    public interface IRightHandControllerModule : IHandControllerModule {
+        
+    }
+    
+    public class RightHandControllerModule : AHandControllerModule{
+        public RightHandControllerModule() : base(XRNode.RightHand) {
+            
         }
     }
 }
