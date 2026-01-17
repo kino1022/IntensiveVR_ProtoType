@@ -124,6 +124,12 @@ namespace Player {
                         Debug.Log($"{GetType().Name}/CacheInputPosition: Cached Position for Device {device.name}: {pos}");
                     }
                 }
+                else {
+                    Debug.Log($"{GetType().Name}/CacheInputPosition: Cached Rotation for Device {device.name}");
+                }
+            }
+            else {
+                Debug.LogError($"{GetType().Name}/CacheInputPosition: Device is not valid.");
             }
         }
         
@@ -141,6 +147,12 @@ namespace Player {
                         Debug.Log($"{GetType().Name}/CacheInputRotation: Cached Rotation for Device {device.name}: {rot.eulerAngles}");
                     }
                 }
+                else {
+                    Debug.Log($"{GetType().Name}/CacheInputRotation: Cached Rotation for Device {device.name}");
+                }
+            }
+            else {
+                Debug.LogError($"{GetType().Name}/CacheInputRotation: Device is not valid.");
             }
         }
         

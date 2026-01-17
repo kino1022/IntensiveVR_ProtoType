@@ -246,7 +246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5245448256833402059}
-  - component: {fileID: 1372524665075027124}
+  - component: {fileID: 751801289082610954}
   m_Layer: 0
   m_Name: PlayreCharacterSample
   m_TagString: Untagged
@@ -271,7 +271,7 @@ Transform:
   - {fileID: 1139108167497077034}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1372524665075027124
+--- !u!114 &751801289082610954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,9 +280,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4290406727755525135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5dccccba9a34ccf9b94e8603ecf6660, type: 3}
+  m_Script: {fileID: 11500000, guid: aaee846af77a45618ac4b73c18c125e6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player.HandIKController
+  m_EditorClassIdentifier: Assembly-CSharp::Player.LocalBasedHandIKController
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
@@ -291,22 +291,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _leftProvider
-      Entry: 6
-      Data: 
-    - Name: _rightProvider
-      Entry: 6
-      Data: 
-  _leftHandIKTarget: {fileID: 8967252713281521550}
-  _rightHandIKTarget: {fileID: 4593903384673281015}
-  _characterBase: {fileID: 5245448256833402059}
-  _xrBase: {fileID: 0}
-  _handPositionOffset: {x: 0, y: 0, z: 0}
-  _handRotationOffset: {x: 0, y: 0, z: 0}
-  _positionSmoothing: 0.1
-  _positionControlRatio: 5
-  _enableLogs: 0
+    SerializationNodes: []
+  _rightHandIKTarget: {fileID: 1159045296678905604}
+  _leftHandIKTarget: {fileID: 2520228828508745422}
+  _baseTransform: {fileID: 3078861128354427110}
+  _ikSmoothSpeed: 1
+  _positionOffset: {x: 0, y: 0, z: 0}
+  _rotationOffsetEuler: {x: 0, y: 0, z: 0}
+  _cachedRightLocalPosition: {x: 0, y: 0, z: 0}
+  _cachedLeftLocalPosition: {x: 0, y: 0, z: 0}
+  _enableDebugLogs: 1
 --- !u!1 &5301476443896007204
 GameObject:
   m_ObjectHideFlags: 0
