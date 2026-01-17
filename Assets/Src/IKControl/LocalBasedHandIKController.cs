@@ -56,6 +56,8 @@ namespace Player {
         private InputDevice _cachedRightDevice;
         
         private InputDevice _cachedLeftDevice;
+        
+        private bool _cachedInputDevices = false;
 
         [SerializeField]
         [LabelText("デバッグログを有効化")]
@@ -70,9 +72,15 @@ namespace Player {
                 XRNode.LeftHand,
                 ref _cachedLeftDevice
                 );
+            _cachedInputDevices = GetCachedDevices();
         }
 
         private void Update() {
+            if (_cachedInputDevices is false) {
+                CachedInputDevices(XRNode.RightHand, ref _cachedRightDevice);
+                CachedInputDevices(XRNode.LeftHand, ref _cachedLeftDevice);
+                _cachedInputDevices = GetCachedDevices();
+            }
             UpdateCachedInputData();
         }
 
@@ -197,6 +205,10 @@ namespace Player {
                     t
                 );
             }
+        }
+
+        private bool GetCachedDevices() {
+            return _cachedRightDevice.isValid && _cachedLeftDevice.isValid;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.XR;
 using VContainer.Unity;
@@ -24,14 +25,26 @@ namespace Controller.Hand {
         
     }
     
+    [Serializable]
     public abstract class AHandTrackingModule : IHandTrackingModule {
 
+        [SerializeField]
+        [LabelText("現在のローカル位置")]
+        [ReadOnly]
         protected Vector3 _currntPos = Vector3.zero;
         
+        [SerializeField]
+        [LabelText("現在のローカル回転")]
+        [ReadOnly]
         protected Quaternion _currntRot = Quaternion.identity;
 
+        [SerializeField]
+        [LabelText("有効状態")]
+        [ReadOnly]
         protected bool _isEnable = false;
         
+        [SerializeField]
+        [LabelText("デバッグログ有効化")]
         private bool _enableDebugLogs = true;
 
         protected InputDevice _trackingDevice;
@@ -64,9 +77,6 @@ namespace Controller.Hand {
                         Debug.Log($"{GetType().Name}.{nameof(UpdatePosition)}: {_currntPos}");
                     }
                 }
-                else {
-                    Debug.LogError($"{GetType().Name}.{nameof(UpdatePosition)}: Device is not valid.");
-                }
             }
             else {
                 Debug.LogError($"{GetType().Name}/UpdatePosition: Device is not valid.");
@@ -79,9 +89,6 @@ namespace Controller.Hand {
                     if (_enableDebugLogs) {
                         Debug.Log($"{GetType().Name}.{nameof(UpdateRotation)}: {_currntRot}");
                     }
-                }
-                else {
-                    Debug.LogError($"{GetType().Name}.{nameof(UpdateRotation)}: Device is not valid.");
                 }
             }
             else {
