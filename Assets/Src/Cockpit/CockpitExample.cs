@@ -11,7 +11,7 @@ namespace IntensiveVR.Cockpit.Examples
         [Header("References")]
         [SerializeField] private CockpitManager cockpitManager;
         [SerializeField] private Transform robotHead;
-        [SerializeField] private CockpitCameraProjection cockpitProjection;
+        [SerializeField] private CockpitPanoramaCamera cockpitProjection;
         
         [Header("Settings")]
         [SerializeField] private bool enableCockpitOnStart = true;
@@ -95,29 +95,6 @@ namespace IntensiveVR.Cockpit.Examples
         public void SetRenderQuality(RenderQuality quality)
         {
             if (cockpitProjection == null) return;
-            
-            switch (quality)
-            {
-                case RenderQuality.Low:
-                    cockpitProjection.SetRenderTextureResolution(1024, 1024);
-                    Debug.Log("Render quality set to Low (1024x1024)");
-                    break;
-                    
-                case RenderQuality.Medium:
-                    cockpitProjection.SetRenderTextureResolution(1536, 1536);
-                    Debug.Log("Render quality set to Medium (1536x1536)");
-                    break;
-                    
-                case RenderQuality.High:
-                    cockpitProjection.SetRenderTextureResolution(2048, 2048);
-                    Debug.Log("Render quality set to High (2048x2048)");
-                    break;
-                    
-                case RenderQuality.VeryHigh:
-                    cockpitProjection.SetRenderTextureResolution(4096, 4096);
-                    Debug.Log("Render quality set to Very High (4096x4096)");
-                    break;
-            }
         }
         
         /// <summary>

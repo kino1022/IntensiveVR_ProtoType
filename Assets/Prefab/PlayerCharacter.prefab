@@ -246,9 +246,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5245448256833402059}
-  - component: {fileID: 751801289082610954}
+  - component: {fileID: 4160941923942862706}
   m_Layer: 0
-  m_Name: PlayreCharacterSample
+  m_Name: PlayerCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,7 +271,7 @@ Transform:
   - {fileID: 1139108167497077034}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &751801289082610954
+--- !u!114 &4160941923942862706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,9 +280,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4290406727755525135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaee846af77a45618ac4b73c18c125e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c597f8a689f4ca5a98f1488073efdd9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player.LocalBasedHandIKController
+  m_EditorClassIdentifier: Assembly-CSharp::Player.HandIkController
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
@@ -291,16 +291,17 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
-  _rightHandIKTarget: {fileID: 1159045296678905604}
-  _leftHandIKTarget: {fileID: 2520228828508745422}
-  _baseTransform: {fileID: 3078861128354427110}
-  _ikSmoothSpeed: 1
-  _positionOffset: {x: 0, y: 0, z: 0}
-  _rotationOffsetEuler: {x: 0, y: 0, z: 0}
-  _cachedRightLocalPosition: {x: 0, y: 0, z: 0}
-  _cachedLeftLocalPosition: {x: 0, y: 0, z: 0}
-  _enableDebugLogs: 1
+    SerializationNodes:
+    - Name: _rightTracking
+      Entry: 6
+      Data: 
+    - Name: _leftTracking
+      Entry: 6
+      Data: 
+  _rightHandIkTarget: {fileID: 4593903384673281015}
+  _leftHandIkTarget: {fileID: 8967252713281521550}
+  _baseTransform: {fileID: 5245448256833402059}
+  m_ikSmoothSpeed: 1
 --- !u!1 &5301476443896007204
 GameObject:
   m_ObjectHideFlags: 0

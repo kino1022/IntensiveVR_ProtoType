@@ -6,6 +6,9 @@ using UnityEngine;
 using VContainer;
 
 namespace Player {
+    /// <summary>
+    /// IHantTrackingModuleから取得したコントローラーの位置をもとにIKを制御するクラス
+    /// </summary>
     public class HandIkController : SerializedMonoBehaviour {
         
         [Title("References")]
@@ -77,8 +80,11 @@ namespace Player {
             _leftTracking ??= _resolver.Resolve<ILeftHandTrackingModule>();
         }
 
-        private void UpdateIK() {
-            if (_baseTransform is null) {
+        
+        private void UpdateIK()
+        {
+            if (_baseTransform is null)
+            {
                 return;
             }
             _cachedSmoothSpeed = Mathf.Clamp01(m_ikSmoothSpeed * Time.deltaTime);

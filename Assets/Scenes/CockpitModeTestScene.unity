@@ -10290,6 +10290,10 @@ PrefabInstance:
       propertyPath: cockpitSphereRenderer
       value: 
       objectReference: {fileID: 1434579044}
+    - target: {fileID: 4160941923942862706, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4160941923942862706, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
     - target: {fileID: 4290406727755525135, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: m_Name
       value: PlayreCharacterSample
@@ -10393,7 +10397,13 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: _rightTracking
+      Entry: 6
+      Data: 
+    - Name: _leftTracking
+      Entry: 6
+      Data: 
   _rightHandIkTarget: {fileID: 1343260779}
   _leftHandIkTarget: {fileID: 1343260778}
   _baseTransform: {fileID: 1343260780}
