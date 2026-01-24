@@ -6,6 +6,9 @@ namespace Grab {
 
         private GrabableBehaviour _grabItem;
         
+        public GrabableBehaviour GrabItem => _grabItem;
+        
+        
         
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using Controller.Hand;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using VContainer;
 
@@ -28,8 +29,13 @@ namespace Player {
         [Range(0.1f, 10.0f)]
         private float m_ikSmoothSpeed = 1.0f;
 
+        [TitleGroup("Injected Modules")]
+        [OdinSerialize]
+        [ReadOnly]
         private IRightHandTrackingModule _rightTracking;
         
+        [OdinSerialize]
+        [ReadOnly]
         private ILeftHandTrackingModule _leftTracking;
 
         private IObjectResolver _resolver;
@@ -78,10 +84,10 @@ namespace Player {
                 return;
             }
             _cachedSmoothSpeed = Mathf.Clamp01(m_ikSmoothSpeed * Time.deltaTime);
-            UpdateIkPosition(_rightTracking, _rightHandIkTarget, ref _cachedSmoothSpeed);
-            UpdateIkRotation(_rightTracking, _rightHandIkTarget, ref _cachedSmoothSpeed);
-            UpdateIkPosition(_leftTracking, _leftHandIkTarget, ref _cachedSmoothSpeed);
-            UpdateIkRotation(_leftTracking, _leftHandIkTarget, ref _cachedSmoothSpeed);
+            UpdateIkPosition(_rightTracking, _rightHandIkTarget, in _cachedSmoothSpeed);
+            UpdateIkRotation(_rightTracking, _rightHandIkTarget, in _cachedSmoothSpeed);
+            UpdateIkPosition(_leftTracking, _leftHandIkTarget, in _cachedSmoothSpeed);
+            UpdateIkRotation(_leftTracking, _leftHandIkTarget, in _cachedSmoothSpeed);
         }
 
         /// <summary>
@@ -89,7 +95,7 @@ namespace Player {
         /// </summary>
         /// <param name="tacking"></param>
         /// <param name="target"></param>
-        private void UpdateIkPosition(IHandTrackingModule tracking, Transform target, ref float smooth) {
+        private void UpdateIkPosition(IHandTrackingModule tracking, Transform target, in float smooth) {
             if (tracking is null) {
                 return;
             }
@@ -111,7 +117,7 @@ namespace Player {
         /// </summary>
         /// <param name="tacking"></param>
         /// <param name="target"></param>
-        private void UpdateIkRotation(IHandTrackingModule tracking, Transform target, ref float smooth) {
+        private void UpdateIkRotation(IHandTrackingModule tracking, Transform target, in float smooth) {
             if (tracking is null) {
                 return;
             }

@@ -39,11 +39,25 @@ namespace Grab.Item {
         void SetGrabable (bool isGrabable);
     }
 
+    /// <summary>
+    /// 握られた際に呼び出される処理を持つクラスに対して約束するインターフェーズ
+    /// </summary>
     public interface IOnGrabCallback {
+        /// <summary>
+        /// 握られた際に呼び出される処理
+        /// </summary>
+        /// <param name="grabable"></param>
         void OnGrabCallback (GrabableBehaviour grabable);
     }
 
+    /// <summary>
+    /// 離された際に呼び出される処理を持つクラスに対して約束するインターフェーズ
+    /// </summary>
     public interface IOnReleaseCallback {
+        /// <summary>
+        /// 離された際に呼ばれる処理
+        /// </summary>
+        /// <param name="grabable"></param>
         void OnReleaseCallback (GrabableBehaviour grabable);
     }
 
@@ -137,7 +151,7 @@ namespace Grab.Item {
         }
 
         public void SetGrabable(bool isGrabable) {
-            OnPreSetGrabable(ref isGrabable);
+            OnPreSetGrabable(isGrabable);
             _isGrabable = isGrabable;
             OnPostSetGrabable();
         }
@@ -154,8 +168,8 @@ namespace Grab.Item {
             }
             OnPreUpdateTransform();
             CalculateSmoothSpeed(out _cachedSmoothSpeed);
-            CalculateNextPosition(out _cachedNextPosition, ref _cachedSmoothSpeed);
-            CalculateNextRotation(out _cachedNextRotation, ref _cachedSmoothSpeed);
+            CalculateNextPosition(out _cachedNextPosition,  _cachedSmoothSpeed);
+            CalculateNextRotation(out _cachedNextRotation,  _cachedSmoothSpeed);
             transform.position = _cachedNextPosition;
             transform.rotation = _cachedNextRotation;
             OnPostUpdateTransform();
@@ -165,7 +179,7 @@ namespace Grab.Item {
             smooth = Mathf.Clamp01(Time.deltaTime * _locomotionSmoothSpeed);
         }
 
-        private void CalculateNextPosition(out Vector3 nextPos, ref float smooth) {
+        private void CalculateNextPosition(out Vector3 nextPos,　float smooth) {
             nextPos = Vector3.Lerp(
                 transform.position ,
                 _cachedGrabContext.Grabber.position, 
@@ -173,7 +187,7 @@ namespace Grab.Item {
                 );
         }
         
-        private void CalculateNextRotation(out Quaternion nextRot, ref float smooth) {
+        private void CalculateNextRotation(out Quaternion nextRot, float smooth) {
             nextRot = Quaternion.Slerp(
                 transform.rotation,
                 _cachedGrabContext.Grabber.rotation,
@@ -238,7 +252,7 @@ namespace Grab.Item {
         /// IsGrabableを設定する前に呼ばれる処理
         /// </summary>
         /// <param name="isGrabable"></param>
-        protected virtual void OnPreSetGrabable(ref bool isGrabable) {}
+        protected virtual void OnPreSetGrabable(bool isGrabable) {}
         
         /// <summary>
         /// IsGrabableを設定した後に呼ばれる処理

@@ -10338,7 +10338,8 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 751801289082610954, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -10381,9 +10382,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1159533695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaee846af77a45618ac4b73c18c125e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c597f8a689f4ca5a98f1488073efdd9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player.LocalBasedHandIKController
+  m_EditorClassIdentifier: Assembly-CSharp::Player.HandIkController
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
@@ -10393,15 +10394,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _rightHandIKTarget: {fileID: 1343260779}
-  _leftHandIKTarget: {fileID: 1343260778}
+  _rightHandIkTarget: {fileID: 1343260779}
+  _leftHandIkTarget: {fileID: 1343260778}
   _baseTransform: {fileID: 1343260780}
-  _ikSmoothSpeed: 1
-  _positionOffset: {x: 0, y: 0, z: 0}
-  _rotationOffsetEuler: {x: 0, y: 0, z: 0}
-  _cachedRightLocalPosition: {x: 0, y: 0, z: 0}
-  _cachedLeftLocalPosition: {x: 0, y: 0, z: 0}
-  _enableDebugLogs: 1
+  m_ikSmoothSpeed: 1
 --- !u!1 &1351058435
 GameObject:
   m_ObjectHideFlags: 0
@@ -17698,7 +17694,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: _handModuleInputReferenceConfig
+      Entry: 6
+      Data: 
+    - Name: _rightHandTrackingModule
+      Entry: 6
+      Data: 
+    - Name: _leftHandTrackingModule
+      Entry: 6
+      Data: 
 --- !u!1001 &3257631069116033653
 PrefabInstance:
   m_ObjectHideFlags: 0

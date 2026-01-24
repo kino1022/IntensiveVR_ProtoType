@@ -74,7 +74,7 @@ namespace Controller.Hand {
             if (_trackingDevice.isValid) {
                 if (_trackingDevice.TryGetFeatureValue(CommonUsages.devicePosition, out _currntPos)) {
                     if (_enableDebugLogs) {
-                        Debug.Log($"{GetType().Name}.{nameof(UpdatePosition)}: {_currntPos}");
+                        Debug.Log($"{GetType().Name}.{nameof(UpdatePosition)}: {_currntPos.x}, {_currntPos.y}, {_currntPos.z}");
                     }
                 }
             }
@@ -87,7 +87,7 @@ namespace Controller.Hand {
             if (_trackingDevice.isValid) {
                 if (_trackingDevice.TryGetFeatureValue(CommonUsages.deviceRotation, out _currntRot)) {
                     if (_enableDebugLogs) {
-                        Debug.Log($"{GetType().Name}.{nameof(UpdateRotation)}: {_currntRot}");
+                        Debug.Log($"{GetType().Name}.{nameof(UpdateRotation)}: {_currntRot.x}, {_currntRot.y}, {_currntRot.z}, {_currntRot.w}");
                     }
                 }
             }
