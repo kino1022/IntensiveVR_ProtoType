@@ -42,9 +42,7 @@ namespace Player {
         
         //以下キャッシュ領域
         private float _cachedSmoothSpeed = 0.0f;
-        
         private Vector3 _cachedNextPosition = Vector3.zero;
-        
         private Quaternion _cachedNextRotation = Quaternion.identity;
 
         [Inject]

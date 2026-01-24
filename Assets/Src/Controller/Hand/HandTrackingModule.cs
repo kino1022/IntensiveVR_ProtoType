@@ -70,6 +70,9 @@ namespace Controller.Hand {
             return false;
         }
 
+        /// <summary>
+        /// モジュールから座標を取得して更新する
+        /// </summary>
         protected void UpdatePosition() {
             if (_trackingDevice.isValid) {
                 if (_trackingDevice.TryGetFeatureValue(CommonUsages.devicePosition, out _currntPos)) {
@@ -83,6 +86,9 @@ namespace Controller.Hand {
             }
         }
 
+        /// <summary>
+        /// モジュールからローカル回転を取得して更新する
+        /// </summary>
         protected void UpdateRotation() {
             if (_trackingDevice.isValid) {
                 if (_trackingDevice.TryGetFeatureValue(CommonUsages.deviceRotation, out _currntRot)) {
