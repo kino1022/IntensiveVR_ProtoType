@@ -21,14 +21,12 @@ namespace IntensiveVR.Cockpit.Examples
         
         private void Start()
         {
-            if (cockpitManager != null && robotHead != null)
-            {
+            if (cockpitManager != null && robotHead != null)  {
                 // ロボットの頭部に投影カメラをアタッチ
                 // Attach projection camera to robot's head
                 cockpitManager.AttachProjectionCameraToRobot(robotHead);
                 
-                if (enableCockpitOnStart)
-                {
+                if (enableCockpitOnStart) {
                     EnableCockpit();
                 }
             }

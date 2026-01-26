@@ -1975,7 +1975,6 @@ GameObject:
   m_Component:
   - component: {fileID: 324584129}
   - component: {fileID: 324584128}
-  - component: {fileID: 324584130}
   m_Layer: 0
   m_Name: CockpitManager
   m_TagString: Untagged
@@ -2002,7 +2001,7 @@ MonoBehaviour:
   placeVRCameraInCockpit: 1
   xrOrigin: {fileID: 1810135246}
   disableGravityInCockpit: 1
-  debugMode: 0
+  debugMode: 1
 --- !u!4 &324584129
 Transform:
   m_ObjectHideFlags: 0
@@ -2018,23 +2017,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &324584130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324584127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IntensiveVR.Cockpit.Examples.CockpitExample
-  cockpitManager: {fileID: 324584128}
-  robotHead: {fileID: 0}
-  cockpitProjection: {fileID: 0}
-  enableCockpitOnStart: 1
-  toggleKey: 99
 --- !u!1 &329674977
 GameObject:
   m_ObjectHideFlags: 0
@@ -10286,6 +10268,10 @@ PrefabInstance:
       propertyPath: _rightControllerTransform
       value: 
       objectReference: {fileID: 1828111680}
+    - target: {fileID: 1557180454256125948, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Depth
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 2589527298558472322, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: cockpitSphereRenderer
       value: 
@@ -10929,6 +10915,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7260069061857253776, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7917674758326848207, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_Depth
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8806329115733545877, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
@@ -17699,15 +17689,16 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: b7eb4881fae47904092e283ee3caf58c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
     - Name: _handModuleInputReferenceConfig
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: _rightHandTrackingModule
       Entry: 6
       Data: 

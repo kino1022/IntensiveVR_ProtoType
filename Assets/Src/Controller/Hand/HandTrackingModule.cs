@@ -45,7 +45,7 @@ namespace Controller.Hand {
         
         [SerializeField]
         [LabelText("デバッグログ有効化")]
-        private bool _enableDebugLogs = true;
+        private bool _enableDebugLogs = false;
 
         protected InputDevice _trackingDevice;
         
