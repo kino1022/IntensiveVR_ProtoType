@@ -6,7 +6,6 @@
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.kino1022.rinainput": "https://github.com/kino1022/RinaInput.git",
-    "com.meta.xr.sdk.interaction.ovr": "83.0.1",
     "com.meta.xr.sdk.platform": "83.0.1",
     "com.meta.xr.simulator": "81.0.0",
     "com.unity.animation.rigging": "1.4.0",
