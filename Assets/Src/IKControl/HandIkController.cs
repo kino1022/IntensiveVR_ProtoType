@@ -3,6 +3,7 @@ using Controller.Hand;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 namespace Player {
@@ -32,6 +33,14 @@ namespace Player {
         [Range(0.1f, 10.0f)]
         private float m_ikSmoothSpeed = 1.0f;
 
+        [FormerlySerializedAs("m_bilateralRatio")] [SerializeField] [LabelText("バイラテラル補正")] [Range(0.1f, 10.0f)]
+        private float m_positionBilateralRatio = 1.0f;
+        
+        [SerializeField]
+        [LabelText("回転角バイラテラル補正")]
+        [Range(0.1f, 10.0f)]
+        private float m_rotationBilateralRatio = 1.0f;
+
         [TitleGroup("Injected Modules")]
         [OdinSerialize]
         [ReadOnly]
@@ -47,6 +56,7 @@ namespace Player {
         private float _cachedSmoothSpeed = 0.0f;
         private Vector3 _cachedNextPosition = Vector3.zero;
         private Quaternion _cachedNextRotation = Quaternion.identity;
+        private Quaternion _cachedAngledRotation = Quaternion.identity;
 
         [Inject]
         public void Construct(IObjectResolver resolver) {
@@ -110,7 +120,7 @@ namespace Player {
 
             _cachedNextPosition = _baseTransform.TransformPoint(tracking.CurrentPosition);
             target.position = Vector3.Lerp(
-                target.position,
+                target.position * m_positionBilateralRatio,
                 _cachedNextPosition,
                 smooth
             );
@@ -129,8 +139,11 @@ namespace Player {
             if (target is null) {
                 return;
             }
-
-            _cachedNextRotation = _baseTransform.rotation * tracking.CurrentRotation;
+            //シンバルロック回避のための分解処理
+            tracking.CurrentRotation.ToAngleAxis(out var angle, out var axis);
+            //倍率を掛けて回転を適用
+            _cachedAngledRotation = Quaternion.AngleAxis(angle * m_rotationBilateralRatio, axis);
+            _cachedNextRotation *= _baseTransform.rotation;
             target.rotation = Quaternion.Slerp(
                 target.rotation,
                 _cachedNextRotation,
