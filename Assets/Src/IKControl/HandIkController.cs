@@ -26,6 +26,10 @@ namespace Player {
         [LabelText("基準Transform")]
         private Transform _baseTransform;
         
+        [SerializeField]
+        [LabelText("XROrigin Transform")]
+        private Transform _xrOriginTransform;
+        
         [Title("Config")]
         
         [SerializeField]
@@ -40,7 +44,11 @@ namespace Player {
         [LabelText("回転角バイラテラル補正")]
         [Range(0.1f, 10.0f)]
         private float m_rotationBilateralRatio = 1.0f;
-
+        
+        [SerializeField]
+        [LabelText("自動補正値調整")]
+        private bool m_autoAdjustBilateralRatio = true;
+        
         [TitleGroup("Injected Modules")]
         [OdinSerialize]
         [ReadOnly]
@@ -49,6 +57,13 @@ namespace Player {
         [OdinSerialize]
         [ReadOnly]
         private ILeftHandTrackingModule _leftTracking;
+        
+        [Title("Runtime State")]
+        
+        [SerializeField]
+        [LabelText("自動バイラテラル補正済みフラグ")]
+        [ReadOnly]
+        private bool _isAdjustedBilateralRatio = false;
 
         private IObjectResolver _resolver;
         
@@ -65,12 +80,19 @@ namespace Player {
 
         private void Start() {
             InjectionTrackingModules();
+            if (m_autoAdjustBilateralRatio == true) {
+                AutoAdjustBilateralRatio(ref m_positionBilateralRatio, ref m_rotationBilateralRatio);
+            }
         }
 
         private void Update() {
             // トラッキングモジュールの注入確認
             if (_rightTracking is null || _leftTracking is null) {
                 InjectionTrackingModules();
+            }
+            //自動バイラテラル角補正処理
+            if (m_autoAdjustBilateralRatio && !_isAdjustedBilateralRatio) {
+                AutoAdjustBilateralRatio(ref m_positionBilateralRatio, ref m_rotationBilateralRatio);
             }
         }
 
@@ -145,10 +167,29 @@ namespace Player {
             _cachedAngledRotation = Quaternion.AngleAxis(angle * m_rotationBilateralRatio, axis);
             _cachedNextRotation *= _baseTransform.rotation;
             target.rotation = Quaternion.Slerp(
-                target.rotation,
+                _cachedAngledRotation,
                 _cachedNextRotation,
                 smooth
             );
+        }
+        
+        /// <summary>
+        /// XROriginと基準Transformのスケール比に基づいてバイラテラル補正値を自動調整する
+        /// </summary>
+        /// <param name="positionRatio"></param>
+        /// <param name="rotationRatio"></param>
+        private void AutoAdjustBilateralRatio (ref float positionRatio, ref float rotationRatio) {
+            if (_baseTransform is null) {
+                return;
+            }
+            if (_xrOriginTransform is null) {
+                return;
+            }
+            float ratio = (_xrOriginTransform.lossyScale.x != 0f) ? (_baseTransform.lossyScale.x / _xrOriginTransform.lossyScale.x) : 0f;
+            Debug.Log($"AutoAdjustBilateralRatio: {ratio}");
+            positionRatio = ratio;
+            rotationRatio = ratio;
+            _isAdjustedBilateralRatio = true;
         }
     }
 }
