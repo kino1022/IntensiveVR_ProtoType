@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
 
-namespace Player {
+namespace IKControl {
     /// <summary>
     /// IHantTrackingModuleから取得したコントローラーの位置をもとにIKを制御するクラス
     /// </summary>

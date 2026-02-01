@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace Player {
+namespace IKControl {
     /// <summary>
     /// XRと操作キャラクターのローカル座標をベースにしてIKターゲットの操作を行うクラス
     /// </summary>
