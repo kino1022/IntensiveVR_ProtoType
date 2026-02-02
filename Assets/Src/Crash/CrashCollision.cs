@@ -78,7 +78,6 @@ namespace Crash {
                 return;
             }
             _tempCrashables = _cachedCollidedObject.GetComponentsInChildren<ICrashable>().ToList();
-
             if (_tempCrashables.Count == 0) {
                 return;
             }

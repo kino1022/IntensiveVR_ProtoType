@@ -2,6 +2,7 @@ using R3;
 using RinaInput.Controller.Module;
 using RinaInput.Signal;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -9,6 +10,8 @@ using UnityEngine.Serialization;
 namespace Player.Action {
     public abstract class ModuleBasedActionBehaviour<T> : ActionBehaviour<T> where T : struct {
 
+        [OdinSerialize]
+        [LabelText("入力モジュール")]
         protected IInputModule<T> InputModule;
         
         [FormerlySerializedAs("PreviousDuration")]

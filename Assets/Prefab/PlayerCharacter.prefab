@@ -247,6 +247,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5245448256833402059}
   - component: {fileID: 3110830295123004104}
+  - component: {fileID: 5966998707503100031}
+  - component: {fileID: 3526808182840842262}
+  - component: {fileID: 7711133599062231600}
+  - component: {fileID: 7964290346284076309}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -301,6 +305,98 @@ MonoBehaviour:
   waitFrames: 2
   trackingMode: 1
   showDebugInfo: 1
+--- !u!143 &5966998707503100031
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290406727755525135}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &3526808182840842262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290406727755525135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9083846c764541a7ba0a9bf083c3b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.WalkSpeedManager
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _initialSpeed: 10
+  _currentSpeed: 0
+--- !u!114 &7711133599062231600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290406727755525135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519c4b7b790a453c8265d44f276ec3db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Action.WalkAction
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _speedProvider
+      Entry: 6
+      Data: 
+  _isSubscribed: 0
+  _isInputting: 0
+  _characterController: {fileID: 5966998707503100031}
+  _currentDirection: {x: 0, y: 0, z: 0}
+--- !u!114 &7964290346284076309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290406727755525135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83664105747143a09e6cd3d31228354c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Scope.PlayerLifetimeScope
+  parentReference:
+    TypeName: GameManager.GameManagerLifetimeScope
+  autoRun: 1
+  autoInjectGameObjects: []
 --- !u!1 &5301476443896007204
 GameObject:
   m_ObjectHideFlags: 0
