@@ -4,14 +4,6 @@ using UnityEngine;
 using VContainer;
 
 namespace Player.Action {
-
-    public interface IWalkSpeedManager : IWalkSpeedProvider{
-        
-    }
-
-    public interface IWalkSpeedProvider {
-        float GetWalkSpeed();
-    }
     
     public class WalkAction : ModuleBasedActionBehaviour<Vector2> {
         

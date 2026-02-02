@@ -124,9 +124,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 84d8a27423aaf8544aecb343e3f7920e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7738274217368546322}
-    - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 84d8a27423aaf8544aecb343e3f7920e, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 9174943062434093569}
     - targetCorrespondingSourceObject: {fileID: -8391222552659086748, guid: 84d8a27423aaf8544aecb343e3f7920e, type: 3}
       insertIndex: -1
@@ -145,41 +142,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 84d8a27423aaf8544aecb343e3f7920e, type: 3}
   m_PrefabInstance: {fileID: 430063421175626122}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7738274217368546322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043577182851288046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03382b541ba64d94845927377cc58777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Crash.CrashCollision
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _cachedCrashables
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[Crash.ICrashable, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  _cachedCollidedObject: {fileID: 0}
 --- !u!114 &9174943062434093569
 MonoBehaviour:
   m_ObjectHideFlags: 0

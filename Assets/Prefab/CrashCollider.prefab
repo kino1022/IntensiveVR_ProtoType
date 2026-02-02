@@ -55,9 +55,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _cachedCollisionInfo
-      Entry: 6
-      Data: 
     - Name: _cachedCrashables
       Entry: 6
       Data: 
