@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -50,17 +51,20 @@ namespace Crash {
         [ReadOnly]
         private List<ICrashable> _cachedCrashables = new List<ICrashable>(50);
         
+        private List<ICrashable> _tempCrashables = new List<ICrashable>(50);
+        
         private CrashCollisionContext _cachedCollisionContext;
 
-        public void OnCollisionEnter(Collision collision) {
+        public void OnCollisionEnter(Collision other) {
+            Debug.Log($"[CrashCollision] OnCollisionEnter: {other.gameObject.name}");
             
-            _cachedCollidedObject = collision.gameObject;
+            _cachedCollidedObject = other.gameObject;
 
             //衝突コンテキストの生成処理
             _cachedCollisionContext = new CrashCollisionContext(
-                hitDirection: collision.relativeVelocity.normalized,
-                hitForce: collision.relativeVelocity.magnitude,
-                hitPosition: collision.GetContact(0).point
+                hitDirection: other.relativeVelocity.normalized,
+                hitForce: other.relativeVelocity.magnitude,
+                hitPosition: other.GetContact(0).point
             );
 
             //衝突情報の生成処理
@@ -70,9 +74,16 @@ namespace Crash {
                 context: _cachedCollisionContext
             );
 
+            if (_cachedCollidedObject is null) {
+                return;
+            }
+            _tempCrashables = _cachedCollidedObject.GetComponentsInChildren<ICrashable>().ToList();
 
+            if (_tempCrashables.Count == 0) {
+                return;
+            }
             //IChrashablesのキャッシュ処理
-            _cachedCrashables.AddRange(_cachedCollidedObject.GetComponents<ICrashable>());
+            _cachedCrashables.AddRange(_tempCrashables);
             
             //キャッシュしたICrashableの処理呼び出し
             if (_cachedCrashables.Count > 0) {
