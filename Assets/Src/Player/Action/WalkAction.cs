@@ -48,15 +48,17 @@ namespace Player.Action {
         }
 
         public override void StartAction(ref ActionContext<Vector2> context) {
-            
+            Debug.Log($"{GetType().Name} : StartAction");
         }
 
         public override void PerformAction(ref ActionContext<Vector2> context) {
+            Debug.Log($"{GetType().Name} : PerformAction");
             _currentDirection = CalculateDirection(ref context);
             ExecuteMove(ref context);
         }
         
         public override void CancelAction(ref ActionContext<Vector2> context) {
+            Debug.Log($"{GetType().Name} : CancelAction");
             _currentDirection = Vector3.zero;
         }
 

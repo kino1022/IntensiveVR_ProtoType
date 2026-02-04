@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 namespace Player.Action {
     public abstract class ReferenceBasedActionBehaviour<T> : ActionBehaviour<T> where T : struct {
         
-        [OdinSerialize]
+        [SerializeField]
         [LabelText("入力モジュール")]
         protected InputActionReference Input;
         
@@ -46,7 +46,8 @@ namespace Player.Action {
         }
 
         private void RegisterInputModule() {
-            if (Input == null) {
+            Debug.Log($"{GetType().Name} : RegisterInputModule");
+            if (Input is null) {
                 return;
             }
 
@@ -54,21 +55,21 @@ namespace Player.Action {
                 .action
                 .started += ctx => {
                     CreateContext(ref ctx, out CachedContext);
-                    OnStart();
+                    StartAction(ref CachedContext);
                 };
 
             Input
                 .action
                 .performed += ctx => {
                     CreateContext(ref ctx, out CachedContext);
-                    OnTick();
+                    PerformAction(ref CachedContext);
                 };
 
             Input
                 .action
                 .canceled += ctx => {
                     CreateContext(ref ctx, out CachedContext);
-                    OnStart();
+                    CancelAction(ref CachedContext);
                 };
             
             _isSubscribed = true;

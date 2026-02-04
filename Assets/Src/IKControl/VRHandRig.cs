@@ -11,9 +11,13 @@ namespace IKControl {
             public TwoBoneIKConstraint ikConstraint;
             public Vector3 positionOffset = Vector3.zero;
             public Vector3 rotationOffset = Vector3.zero;
+            
+            public Vector3 hintOffset = Vector3.zero;
 
             [HideInInspector]
             public Transform mirror;
+
+            [HideInInspector] public Transform hint;
         }
 
         [Header("Hand Settings")]
@@ -73,10 +77,14 @@ namespace IKControl {
             // ★修正: data全体を取得→変更→再設定
             var leftData = leftHand.ikConstraint.data;
             leftData.target = leftHand.mirror;
+            leftData.hint = leftHand.hint;
+            leftData.hintWeight = 1.0f;
             leftHand.ikConstraint.data = leftData;
 
             var rightData = rightHand.ikConstraint.data;
             rightData.target = rightHand.mirror;
+            rightData.hint = rightHand.hint;
+            rightData.hintWeight = 1.0f;
             rightHand.ikConstraint.data = rightData;
 
             isInitialized = true;
