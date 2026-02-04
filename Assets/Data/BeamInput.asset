@@ -9,20 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d486332c83948bfb32fa88f575afdfd, type: 3}
-  m_Name: MoveInput
-  m_EditorClassIdentifier: RinaInput::RinaInput.Controller.Module.LeverModule
+  m_Script: {fileID: 11500000, guid: 204023055273b4cf6b5fe003b672fb0a, type: 3}
+  m_Name: BeamInput
+  m_EditorClassIdentifier: RinaInput::RinaInput.Controller.Module.ButtonModule
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 0}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: m_actionRef
-      Entry: 10
-      Data: 0
-  m_deadZone: 0.3
+    SerializationNodes: []
+  m_actionRef: {fileID: 0}
+  m_deadZone: 0.2

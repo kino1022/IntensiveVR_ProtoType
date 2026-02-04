@@ -368,12 +368,16 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 415ad51eb9c1f4a8fa4d53720a371374, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: InputModule
+      Entry: 10
+      Data: 0
     - Name: _speedProvider
       Entry: 6
       Data: 

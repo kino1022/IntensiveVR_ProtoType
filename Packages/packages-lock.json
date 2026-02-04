@@ -49,7 +49,7 @@
         "com.cysharp.messagepipe": "https://github.com/Cysharp/MessagePipe.git?path=src/MessagePipe.Unity/Assets/Plugins/MessagePipe",
         "com.cysharp.messagepipe.vcontainer": "https://github.com/Cysharp/MessagePipe.git?path=src/MessagePipe.Unity/Assets/Plugins/MessagePipe.VContainer"
       },
-      "hash": "31bbb1e8c8272b0d5ea6f632edc24b10fdc37108"
+      "hash": "b1968f551a7d5c899c002f2d95fbcac2e47e8e27"
     },
     "com.meta.xr.sdk.platform": {
       "version": "83.0.1",
