@@ -30,7 +30,7 @@ namespace Grab.Item {
         /// <summary>
         /// 離す際の処理
         /// </summary>
-        void Release();
+        void Release(in ReleaseContext context);
         
         /// <summary>
         /// つかめるかどうかを設定する
@@ -58,7 +58,7 @@ namespace Grab.Item {
         /// 離された際に呼ばれる処理
         /// </summary>
         /// <param name="grabable"></param>
-        void OnReleaseCallback (GrabableBehaviour grabable);
+        void OnReleaseCallback (GrabableBehaviour grabable, in ReleaseContext context);
     }
 
     /// <summary>
@@ -74,6 +74,18 @@ namespace Grab.Item {
             Grabber = grabber;
             Owner = owner;
             Resolver = resolver;
+        }
+    }
+    
+    /// <summary>
+    /// 離された際に掴まれたオブジェクトに対して送られる情報を詰め込んだ構造体
+    /// </summary>
+    public readonly struct ReleaseContext {
+        
+        public readonly Vector3 ReleaseVelocity;
+        
+        public ReleaseContext(Vector3 releaseVelocity) {
+            ReleaseVelocity = releaseVelocity;
         }
     }
     
@@ -141,13 +153,13 @@ namespace Grab.Item {
             OnPostGrab();
         }
 
-        public void Release() {
-            OnPreRelease();
+        public void Release(in ReleaseContext context) {
+            OnPreRelease(in context);
             _isGrabbed = false;
             _isGrabable = true;
             _cachedGrabContext = default;
-            InvokeOnReleaseCallback();
-            OnPostRelease();
+            InvokeOnReleaseCallback(in context);
+            OnPostRelease(in context);
         }
 
         public void SetGrabable(bool isGrabable) {
@@ -216,13 +228,13 @@ namespace Grab.Item {
             }
         }
 
-        private void InvokeOnReleaseCallback() {
+        private void InvokeOnReleaseCallback(in ReleaseContext context) {
             if (_onReleaseCallbacks.Count > 0) {
                 foreach (var callback in _onReleaseCallbacks) {
                     if (callback is null) {
                         continue;
                     }
-                    callback.OnReleaseCallback(this);
+                    callback.OnReleaseCallback(this, in context);
                 }
             }
         }
@@ -241,12 +253,12 @@ namespace Grab.Item {
         /// <summary>
         /// 離された際に最初に呼ばれる処理
         /// </summary>
-        protected virtual void OnPreRelease() {}
+        protected virtual void OnPreRelease(in ReleaseContext context) {}
         
         /// <summary>
         /// 離された際に最後に呼ばれる処理
         /// </summary>
-        protected virtual void OnPostRelease() {}
+        protected virtual void OnPostRelease(in ReleaseContext context) {}
         
         /// <summary>
         /// IsGrabableを設定する前に呼ばれる処理
