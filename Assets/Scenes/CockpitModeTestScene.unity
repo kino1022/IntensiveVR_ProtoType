@@ -373,6 +373,11 @@ LightProbeGroup:
   - {x: -2.4144797, y: 0.13248897, z: 2.767537}
   - {x: -2.4144797, y: 0.13248897, z: -1}
   m_Dering: 1
+--- !u!4 &548902954 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3915743996264430051, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+  m_PrefabInstance: {fileID: 1343260776}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &610590590
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,10 +832,18 @@ PrefabInstance:
       propertyPath: cockpitSphereRenderer
       value: 
       objectReference: {fileID: 1434579044}
+    - target: {fileID: 2988715718128771744, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3110830295123004104, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: xrOrigin
       value: 
       objectReference: {fileID: 1810135246}
+    - target: {fileID: 3110830295123004104, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: trackingMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3110830295123004104, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: leftHand.controller
       value: 
@@ -839,6 +852,10 @@ PrefabInstance:
       propertyPath: rightHand.controller
       value: 
       objectReference: {fileID: 1828111680}
+    - target: {fileID: 3526808182840842262, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: _initialSpeed
+      value: 280
+      objectReference: {fileID: 0}
     - target: {fileID: 3526808182840842262, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -891,6 +908,38 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 5264621671200297362, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+    - target: {fileID: 5265960374983024714, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838191888210969987, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Data.m_Hint
+      value: 
+      objectReference: {fileID: 548902954}
+    - target: {fileID: 6838191888210969987, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Data.m_MaintainTargetPositionOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838191888210969987, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Data.m_MaintainTargetRotationOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7218855066130002125, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7631435915051285092, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Data.m_Hint
+      value: 
+      objectReference: {fileID: 1966475268}
+    - target: {fileID: 7631435915051285092, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Data.m_MaintainTargetPositionOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7631435915051285092, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+      propertyPath: m_Data.m_MaintainTargetRotationOffset
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7711133599062231600, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -901,7 +950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7711133599062231600, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
-      value: '"path":"InputModule","value":$eref:0'
+      value: '"path":"Input","value":$eref:0'
       objectReference: {fileID: 0}
     - target: {fileID: 7711133599062231600, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
@@ -910,7 +959,7 @@ PrefabInstance:
     - target: {fileID: 7711133599062231600, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: 'serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 415ad51eb9c1f4a8fa4d53720a371374, type: 2}
+      objectReference: {fileID: 1987572509}
     - target: {fileID: 7964290346284076309, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
       propertyPath: autoInjectGameObjects.Array.size
       value: 1
@@ -1174,6 +1223,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7917674758326848207, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_Depth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053059486601427065, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8806329115733545877, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
@@ -1832,6 +1885,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7917674758240283209, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
   m_PrefabInstance: {fileID: 1373153106}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1966475268 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5173752828197000042, guid: 4bc59d58767304ac7b181dae16cf797a, type: 3}
+  m_PrefabInstance: {fileID: 1343260776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1987572509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: XRI Left Locomotion/Move
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_ActionId: 9693e25f-8a4f-4aed-842f-3961243c69a1
 --- !u!1 &2066984234
 GameObject:
   m_ObjectHideFlags: 0
@@ -2132,7 +2204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7674979561605749494, guid: 666436e9c2e31fc4fae63fc5260fa4f1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.87
+      value: -0.391
       objectReference: {fileID: 0}
     - target: {fileID: 7674979561605749494, guid: 666436e9c2e31fc4fae63fc5260fa4f1, type: 3}
       propertyPath: m_LocalRotation.w

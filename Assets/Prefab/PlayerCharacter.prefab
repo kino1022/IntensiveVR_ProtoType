@@ -173,7 +173,7 @@ Transform:
   m_GameObject: {fileID: 642574625783769238}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1.053, z: 0.122}
+  m_LocalPosition: {x: 0.43, y: 1.4, z: 0.122}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -368,17 +368,19 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 415ad51eb9c1f4a8fa4d53720a371374, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: InputModule
-      Entry: 10
-      Data: 0
+    - Name: Input
+      Entry: 6
+      Data: 
     - Name: _speedProvider
+      Entry: 6
+      Data: 
+    - Name: _originCamera
       Entry: 6
       Data: 
   _isSubscribed: 0
@@ -518,7 +520,7 @@ Transform:
   m_GameObject: {fileID: 5766590730445472730}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 1.053, z: -0.122}
+  m_LocalPosition: {x: -0.431, y: 1.459, z: -0.122}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

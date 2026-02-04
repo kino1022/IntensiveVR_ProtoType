@@ -17,7 +17,7 @@ namespace Player {
         
         [Title("Config")]
         
-        [SerializeField, LabelText("初期歩行速度"), Range(0.0f, 100.0f)]
+        [SerializeField, LabelText("初期歩行速度"), Range(0.0f, 10000.0f)]
         private float _initialSpeed = 10.0f;
 
         [Title("RuntimeStatus")]

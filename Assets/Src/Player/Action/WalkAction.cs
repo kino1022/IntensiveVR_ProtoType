@@ -44,6 +44,7 @@ namespace Player.Action {
                 _speedProvider = _resolver.Resolve<IWalkSpeedProvider>();
                 _originCamera = _resolver.Resolve<IXROriginIdentifiedCamera>();
             }
+            
         }
 
         public override void StartAction(ref ActionContext<Vector2> context) {
